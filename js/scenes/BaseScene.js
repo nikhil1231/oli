@@ -1,5 +1,6 @@
 class BaseScene extends Phaser.Scene {
   fadeSpeed = 0.02;
+  swirlLevel = 300;
 
   constructor(name, background = null) {
     super(name);
@@ -40,6 +41,13 @@ class BaseScene extends Phaser.Scene {
     this.load.audio("death", "audio/death.wav");
     this.load.audio("heal", "audio/heal.wav");
     this.load.audio("block", "audio/block.wav");
+    this.load.audio("star", "audio/star.wav");
+
+    this.load.plugin(
+      "rexswirlpipelineplugin",
+      "https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexswirlpipelineplugin.min.js",
+      true
+    );
   }
 
   create() {
@@ -58,6 +66,7 @@ class BaseScene extends Phaser.Scene {
     this.deathNoise = this.sound.add("death");
     this.healSound = this.sound.add("heal");
     this.blockSound = this.sound.add("block");
+    this.starSound = this.sound.add("star");
 
     this.backgroundImg = new Phaser.GameObjects.Image(
       this,
@@ -68,6 +77,9 @@ class BaseScene extends Phaser.Scene {
     this.add.existing(this.backgroundImg);
 
     this.narrator = new Speech(this, null, this.sound.add("narrator"));
+
+    var postFxPlugin = this.plugins.get("rexswirlpipelineplugin");
+    this.cameraFilter = postFxPlugin.add(this.cameras.main);
   }
 
   update() {
@@ -115,6 +127,41 @@ class BaseScene extends Phaser.Scene {
     this.alpha = to;
   }
 
+  async swirlNextLevel() {
+    this.swirlOut();
+    await pause(2000);
+    this.starSound.play();
+    await this.fadeOut();
+    // this.startNextLevel();
+  }
+
+  async swirlTease(level, duration = 100) {
+    for (let i = 0; i < duration; i++) {
+      this.setSwirl(level * Math.sin((Math.PI * i) / duration));
+      await pause(10);
+    }
+    this.setSwirl(0);
+  }
+
+  async swirlOut(level = this.swirlLevel) {
+    for (let i = 0; i < level; i++) {
+      this.setSwirl(i);
+      await pause(10);
+    }
+  }
+
+  async swirlIn(level = this.swirlLevel) {
+    for (let i = level; i >= 0; i--) {
+      this.setSwirl(i);
+      await pause(10);
+    }
+  }
+
+  setSwirl(i) {
+    this.cameraFilter.angle = i;
+    this.cameraFilter.radius = i * 5;
+  }
+
   draw() {
     this.fade.clear();
 
@@ -142,6 +189,7 @@ class BaseScene extends Phaser.Scene {
     await this.fadeOut();
     const code = parseInt(this.SCENE_CODE) + 1;
     setLevelSave(code);
+    setSectionSave(0);
     this.scene.start(code.toString());
   }
 }
