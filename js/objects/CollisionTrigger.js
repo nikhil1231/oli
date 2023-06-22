@@ -10,12 +10,13 @@ class CollisionTrigger extends Phaser.Physics.Arcade.Sprite {
     this.displayHeight = height;
   }
 
-  setTrigger(obj) {
-    return new Promise(resolve => {
+  setTrigger(obj, cb = null) {
+    return new Promise((resolve) => {
       this.scene.physics.add.overlap(this, obj, () => {
         this.destroy();
+        if (cb) cb();
         resolve();
       });
-    })
+    });
   }
 }

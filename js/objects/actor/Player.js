@@ -20,6 +20,8 @@ class Player extends Actor {
       true
     );
 
+    this.speed = VARS.playerSpeed;
+
     this.cursors = scene.input.keyboard.addKeys({
       up: Phaser.Input.Keyboard.KeyCodes.W,
       down: Phaser.Input.Keyboard.KeyCodes.S,
@@ -30,6 +32,7 @@ class Player extends Actor {
 
     this.resetControls();
 
+    scene.physics.add.existing(this)
     scene.physics.add.overlap(this, scene.powerups, (player, powerup) => {
       this.heal(powerup.amount);
       powerup.destroy();
@@ -51,9 +54,9 @@ class Player extends Actor {
     const speed =
       this.someoneTalking || this.immobile
         ? 0
-        : both
-        ? VARS.playerSpeed / Math.sqrt(2)
-        : VARS.playerSpeed;
+        : (both && !this.grounded)
+        ? this.speed / Math.sqrt(2)
+        : this.speed;
 
     this.setVelocityX(
       this.controls[1].isDown * speed - this.controls[3].isDown * speed

@@ -8,13 +8,12 @@ class Enemy extends Actor {
     hp,
     x,
     y,
-    headImg,
-    voice = 'default_voice',
+    name,
     bodyImg = null,
     bulletImg = "bullet",
     healthBarVisible = false,
   ) {
-    super(scene, hp, x, y, headImg, voice, bodyImg, bulletImg, healthBarVisible);
+    super(scene, hp, x, y, name, name, bodyImg, bulletImg, healthBarVisible);
   }
 
   update() {

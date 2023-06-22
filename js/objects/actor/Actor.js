@@ -46,7 +46,8 @@ class Actor extends Phaser.Physics.Arcade.Sprite {
     );
 
     // SPEECH
-    this.speech = new Speech(scene, headImg, this.scene.sound.add(voice));
+    const speechVoice = this.scene.sound.add(voice);
+    this.speech = new Speech(scene, headImg, speechVoice);
 
     // COLLISION
     scene.physics.add.overlap(
@@ -72,6 +73,10 @@ class Actor extends Phaser.Physics.Arcade.Sprite {
 
   async say(speech) {
     await this.speech.say(speech);
+  }
+
+  async ask(question, answers, spacing) {
+    return await this.speech.ask(question, answers, spacing);
   }
 
   shoot(pointer) {
@@ -129,7 +134,7 @@ class Actor extends Phaser.Physics.Arcade.Sprite {
     }
 
     this._flash();
-    this.healthBar.setValue(this.hp);
+    await this.healthBar.setValue(this.hp);
     this.resetDmgTimeout();
 
     if (this.hp <= 0) {
@@ -150,8 +155,8 @@ class Actor extends Phaser.Physics.Arcade.Sprite {
   }
 
   setHeadTexture(img) {
-    this.actorHead.setTexture(img)
-    this.speech.img.setTexture(img)
+    this.actorHead.setTexture(img);
+    this.speech.img.setTexture(img);
   }
 
   async _flash() {

@@ -28,14 +28,18 @@ class BaseScene extends Phaser.Scene {
       this.load.image("background", `img/backgrounds/${this.background}.png`);
     }
 
-    this.load.audio("default_voice", "audio/sans.wav");
-    this.load.audio("narrator", "audio/narrator.wav");
+    this.load.audio("player_speech", "audio/speech/player_speech.wav");
+    this.load.audio("narrator", "audio/speech/narrator.wav");
+    this.load.audio("aman", "audio/speech/sans.wav");
+    this.load.audio("nikhil", "audio/speech/tor3.wav");
+
     this.load.audio("big_damage_audio", "audio/damage.wav");
     this.load.audio("create", "audio/create.wav");
     this.load.audio("impact", "audio/impact.wav");
     this.load.audio("oof", "audio/oof.wav");
     this.load.audio("death", "audio/death.wav");
     this.load.audio("heal", "audio/heal.wav");
+    this.load.audio("block", "audio/block.wav");
   }
 
   create() {
@@ -53,6 +57,7 @@ class BaseScene extends Phaser.Scene {
     this.oofNoise = this.sound.add("oof");
     this.deathNoise = this.sound.add("death");
     this.healSound = this.sound.add("heal");
+    this.blockSound = this.sound.add("block");
 
     this.backgroundImg = new Phaser.GameObjects.Image(
       this,
@@ -66,7 +71,9 @@ class BaseScene extends Phaser.Scene {
   }
 
   update() {
-    this.player.update();
+    if (this.player) {
+      this.player.update();
+    }
 
     for (const playerBullet of this.playerBullets.getChildren()) {
       playerBullet.update();

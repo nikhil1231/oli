@@ -13,9 +13,9 @@ const config = {
   type: Phaser.AUTO,
   width: VARS.width,
   height: VARS.height,
-  skipSpeech: true,
+  skipSpeech: false,
   backgroundColor: 0x000000,
-  scene: [IntroScene, BasildonScene].slice(getLevelSave()),
+  scene: [IntroScene, BasildonScene, FootballScene].slice(getLevelSave()),
   physics: {
     default: "arcade",
     arcade: {
