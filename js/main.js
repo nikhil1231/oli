@@ -6,23 +6,22 @@ const VARS = {
   playerSpeed: 300,
   bulletSpeed: 300,
   bulletDmg: 2,
-}
+  scale: 0.4,
+};
 
 const config = {
   type: Phaser.AUTO,
   width: VARS.width,
   height: VARS.height,
-  skipSpeech: false,
+  skipSpeech: true,
   backgroundColor: 0x000000,
-  scene: [
-    IntroScene
-  ].slice(getLevelSave()),
+  scene: [IntroScene, BasildonScene].slice(getLevelSave()),
   physics: {
     default: "arcade",
     arcade: {
-      debug: true
-    }
-  }
+      debug: true,
+    },
+  },
 };
 
 const game = new Phaser.Game(config);

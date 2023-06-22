@@ -1,11 +1,20 @@
 class Enemy extends Actor {
-
   fireRate = 100;
   dmg = 5;
   isAlive = true;
 
-  constructor(scene, hp, x, y, img, bulletImg, scale=0.25, healthBarVisible=true) {
-    super(scene, hp, x, y, scale, img, bulletImg, healthBarVisible);
+  constructor(
+    scene,
+    hp,
+    x,
+    y,
+    headImg,
+    voice = 'default_voice',
+    bodyImg = null,
+    bulletImg = "bullet",
+    healthBarVisible = false,
+  ) {
+    super(scene, hp, x, y, headImg, voice, bodyImg, bulletImg, healthBarVisible);
   }
 
   update() {
@@ -15,6 +24,6 @@ class Enemy extends Actor {
   }
 
   shoot(x, y) {
-    super.shoot({ x, y })
+    super.shoot({ x, y });
   }
 }

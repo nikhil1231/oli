@@ -4,12 +4,13 @@ class Actor extends Phaser.Physics.Arcade.Sprite {
     hp,
     x,
     y,
-    scale,
     headImg,
-    bodyImg = "body_default",
+    voice = "default_voice",
+    bodyImg = null,
     bulletImg = "bullet",
-    healthBarVisible = true,
-    isPlayer = false
+    healthBarVisible = false,
+    isPlayer = false,
+    scale = VARS.scale
   ) {
     super(scene, x, y);
     this.scene = scene;
@@ -20,7 +21,7 @@ class Actor extends Phaser.Physics.Arcade.Sprite {
     scene.add.existing(this);
     scene.physics.world.enableBody(this);
     this.setScale(scale);
-    this.setCollideWorldBounds(true);
+    this.setCollideWorldBounds(isPlayer);
 
     this.actorBody = new ActorBody(scene, this.x, this.y, bodyImg, scale);
     this.actorHead = new ActorHead(scene, this.x, this.y, headImg, scale);
@@ -38,9 +39,16 @@ class Actor extends Phaser.Physics.Arcade.Sprite {
     this.bigDamageSound = scene.sound.add("big_damage_audio");
 
     // SETTING BOUNDS
-    this.setSize(this.actorHead.width * 0.8, 350)
-    this.setOffset(-this.actorHead.width/2 + 40, -this.actorHead.height/2 + 40)
+    this.setSize(this.actorHead.width * 0.8, 350);
+    this.setOffset(
+      -this.actorHead.width / 2 + 40,
+      -this.actorHead.height / 2 + 40
+    );
 
+    // SPEECH
+    this.speech = new Speech(scene, headImg, this.scene.sound.add(voice));
+
+    // COLLISION
     scene.physics.add.overlap(
       this,
       isPlayer ? scene.enemyBullets : scene.playerBullets,
@@ -58,6 +66,12 @@ class Actor extends Phaser.Physics.Arcade.Sprite {
 
     this.actorHead.setFlipX(this.flipX);
     this.actorBody.setFlipX(this.flipX);
+
+    this.speech.update();
+  }
+
+  async say(speech) {
+    await this.speech.say(speech);
   }
 
   shoot(pointer) {
@@ -82,6 +96,7 @@ class Actor extends Phaser.Physics.Arcade.Sprite {
     this.setVelocity(...this.getVelocityVector(v, x, y));
     await new Promise(async (r) => {
       while (true) {
+        this.update();
         if (
           Math.abs(x - this.x) < tolerance &&
           Math.abs(y - this.y) < tolerance
@@ -132,6 +147,11 @@ class Actor extends Phaser.Physics.Arcade.Sprite {
     this.hp = hp;
     this.healthBar.visible = true;
     this.healthBar.setValue(this.hp, false);
+  }
+
+  setHeadTexture(img) {
+    this.actorHead.setTexture(img)
+    this.speech.img.setTexture(img)
   }
 
   async _flash() {

@@ -6,15 +6,15 @@ class Player extends Actor {
   someoneTalking = false;
   immobile = false;
 
-  constructor(scene, x, y, healthBarVisible=true) {
+  constructor(scene, x, y, img, healthBarVisible = true) {
     super(
       scene,
       Player.hp,
       x,
       y,
-      0.4,
-      "oli1",
-      "body_default",
+      img,
+      'player_speech',
+      "body_0",
       "bullet",
       healthBarVisible,
       true
@@ -58,9 +58,11 @@ class Player extends Actor {
     this.setVelocityX(
       this.controls[1].isDown * speed - this.controls[3].isDown * speed
     );
-    this.setVelocityY(
-      this.controls[2].isDown * speed - this.controls[0].isDown * speed
-    );
+    if (!this.grounded) {
+      this.setVelocityY(
+        this.controls[2].isDown * speed - this.controls[0].isDown * speed
+      );
+    }
 
     // Make player face mouse
     if (!this.lockFlip) {

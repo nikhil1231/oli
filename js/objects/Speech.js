@@ -3,6 +3,8 @@ class Speech {
   WIDTH = 800;
   HEIGHT = 120;
   BORDER = 5;
+  ROTATION_X = 0.3;
+  ROTATION_S = 0.015;
 
   visible = false;
   isTalking = true;
@@ -15,6 +17,7 @@ class Speech {
 
     this.x = (VARS.width / 2) - this.WIDTH / 2;
     this.y = 30;
+    this.rot = 0;
 
     this.text_x = this.x + 150;
     this.text_y = this.y + 30;
@@ -93,6 +96,13 @@ class Speech {
 
     this.isTalking = false;
     done();
+  }
+
+  update() {
+    if (this.isImg) {
+      this.img.setRotation(Math.sin(this.rot) * this.ROTATION_X)
+      this.rot += this.ROTATION_S
+    }
   }
 
   draw() {
