@@ -12,6 +12,7 @@ class FootballScene extends BaseScene {
   preload() {
     super.preload();
 
+    this.load.image("oli", "img/character/face/oli_young_1.png");
     this.load.image("aman", "img/character/face/aman_young_1.png");
     this.load.image("nikhil", "img/character/face/nikhil_young_1.png");
     this.load.image("football", "img/football.png");
@@ -95,9 +96,15 @@ class FootballScene extends BaseScene {
           : ["Haha, good one", "LeT's bE fRieNds forEveERR!!"]
       );
 
+      await pause();
+
+      await this.narrator.say(['Little did they know it at the time...', '...but this was to be the start of a beautiful friendship.'])
+
+      await pause();
+
       await this.swirlTease(70, 100);
 
-      await pause(2000);
+      await pause();
 
       await this.player.say(["?!?!?!", "What the fuck was that?!!?"]);
 

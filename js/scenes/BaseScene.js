@@ -12,8 +12,6 @@ class BaseScene extends Phaser.Scene {
     this.load.setBaseURL("assets");
 
     this.load.image("arrow", "img/arrow.png");
-    this.load.image("oli1", "img/character/face/oli1.png");
-    this.load.image("oli_young_1", "img/character/face/oli_young_1.png");
     this.load.image("body_0", "img/character/body/default.png");
     this.load.image("body_1", "img/character/body/1.png");
     this.load.image("body_2", "img/character/body/2.png");
@@ -67,6 +65,8 @@ class BaseScene extends Phaser.Scene {
     this.healSound = this.sound.add("heal");
     this.blockSound = this.sound.add("block");
     this.starSound = this.sound.add("star");
+
+    this.platforms = this.add.group();
 
     this.backgroundImg = new Phaser.GameObjects.Image(
       this,
@@ -132,7 +132,7 @@ class BaseScene extends Phaser.Scene {
     await pause(2000);
     this.starSound.play();
     await this.fadeOut();
-    // this.startNextLevel();
+    this.startNextLevel();
   }
 
   async swirlTease(level, duration = 100) {

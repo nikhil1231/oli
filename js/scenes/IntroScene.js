@@ -7,6 +7,8 @@ class IntroScene extends BaseScene {
 
   preload() {
     super.preload();
+    this.load.image("oli", "img/character/face/oli1.png");
+
     this.load.audio("player_speech", "audio/player_speech.wav");
   }
 

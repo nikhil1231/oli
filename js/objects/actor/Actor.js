@@ -1,4 +1,7 @@
 class Actor extends Phaser.Physics.Arcade.Sprite {
+  GRAVITY = 1500;
+  jumpHeight = 900;
+
   constructor(
     scene,
     hp,
@@ -19,6 +22,7 @@ class Actor extends Phaser.Physics.Arcade.Sprite {
     this.isPlayer = isPlayer;
 
     scene.add.existing(this);
+    scene.physics.add.existing(this);
     scene.physics.world.enableBody(this);
     this.setScale(scale);
     this.setCollideWorldBounds(isPlayer);
@@ -42,7 +46,7 @@ class Actor extends Phaser.Physics.Arcade.Sprite {
     this.setSize(this.actorHead.width * 0.8, 350);
     this.setOffset(
       -this.actorHead.width / 2 + 40,
-      -this.actorHead.height / 2 + 40
+      -this.actorHead.height / 2 + 30
     );
 
     // SPEECH
@@ -64,6 +68,7 @@ class Actor extends Phaser.Physics.Arcade.Sprite {
     this.actorHead.setPosition(this.x, this.y);
     this.actorBody.setPosition(this.x, this.y);
     this.healthBar.setPosition(this.x, this.y);
+    if (this.gun) this.gun.update(this.x, this.y, this.flipX);
 
     this.actorHead.setFlipX(this.flipX);
     this.actorBody.setFlipX(this.flipX);
@@ -77,6 +82,10 @@ class Actor extends Phaser.Physics.Arcade.Sprite {
 
   async ask(question, answers, spacing) {
     return await this.speech.ask(question, answers, spacing);
+  }
+
+  enableGun() {
+    this.gun = new Gun(this.scene, this.x, this.y);
   }
 
   shoot(pointer) {
@@ -157,6 +166,24 @@ class Actor extends Phaser.Physics.Arcade.Sprite {
   setHeadTexture(img) {
     this.actorHead.setTexture(img);
     this.speech.img.setTexture(img);
+  }
+
+  enableGravity() {
+    this.gravityEnabled = true;
+    this.body.allowGravity = true;
+    this.body.setGravityY(this.GRAVITY);
+  }
+
+  jump() {
+    if (this.body.touching.down) {
+      this.body.velocity.y = -this.jumpHeight;
+    }
+  }
+
+  dropDown() {
+    if (this.body.touching.down) {
+      this.y += 3;
+    }
   }
 
   async _flash() {

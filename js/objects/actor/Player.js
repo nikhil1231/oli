@@ -6,14 +6,14 @@ class Player extends Actor {
   someoneTalking = false;
   immobile = false;
 
-  constructor(scene, x, y, img, healthBarVisible = true) {
+  constructor(scene, x, y, healthBarVisible = true) {
     super(
       scene,
       Player.hp,
       x,
       y,
-      img,
-      'player_speech',
+      "oli",
+      "player_speech",
       "body_0",
       "bullet",
       healthBarVisible,
@@ -32,7 +32,7 @@ class Player extends Actor {
 
     this.resetControls();
 
-    scene.physics.add.existing(this)
+    scene.physics.add.existing(this);
     scene.physics.add.overlap(this, scene.powerups, (player, powerup) => {
       this.heal(powerup.amount);
       powerup.destroy();
@@ -54,7 +54,7 @@ class Player extends Actor {
     const speed =
       this.someoneTalking || this.immobile
         ? 0
-        : (both && !this.grounded)
+        : both && !this.grounded
         ? this.speed / Math.sqrt(2)
         : this.speed;
 
@@ -71,6 +71,56 @@ class Player extends Actor {
     if (!this.lockFlip) {
       this.setFlipX(this.pointer.x < this.x);
     }
+
+    this.isOnFloor = false;
+  }
+
+  enableGravity() {
+    super.enableGravity();
+    this.grounded = true;
+    this.isOnFloor = true;
+
+    this.scene.input.on("pointermove", (pointer) => {
+      if (this.flipX) {
+        this.actorHead.rotation = Phaser.Math.Angle.Between(
+          pointer.x,
+          pointer.y,
+          this.x,
+          this.y
+        );
+      } else {
+        this.actorHead.rotation = Phaser.Math.Angle.Between(
+          this.x,
+          this.y,
+          pointer.x,
+          pointer.y
+        );
+      }
+    });
+
+    const keyW = this.scene.input.keyboard.addKey(
+      Phaser.Input.Keyboard.KeyCodes.W
+    );
+
+    const keyS = this.scene.input.keyboard.addKey(
+      Phaser.Input.Keyboard.KeyCodes.S
+    );
+
+    keyW.on("down", () => {
+      this.jump();
+    });
+
+    keyS.on("down", () => {
+      this.dropDown();
+    });
+  }
+
+  enableGun() {
+    super.enableGun();
+
+    this.scene.input.on("pointerdown", (pointer) => {
+      this.gun.shoot(pointer.x, pointer.y);
+    });
   }
 
   resetControls() {

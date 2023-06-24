@@ -1,4 +1,4 @@
-const pause = (ms) => new Promise(r => setTimeout(r, config.skipSpeech ? 0 : ms));
+const pause = (ms=2000) => new Promise(r => setTimeout(r, config.skipSpeech ? 0 : ms));
 
 const getRandomInt = (max) => {
   return Math.floor(Math.random() * max);

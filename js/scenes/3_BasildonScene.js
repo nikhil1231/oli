@@ -10,6 +10,7 @@ class BasildonScene extends BaseScene {
   preload() {
     super.preload();
 
+    this.load.image("oli", "img/character/face/oli_young_1.png");
     this.load.image("aman", "img/character/face/aman_young_1.png");
     this.load.image("nikhil", "img/character/face/nikhil_young_1.png");
     this.load.image("nikhil_sad", "img/character/face/nikhil_young_1_sad.png");

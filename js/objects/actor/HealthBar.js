@@ -9,7 +9,7 @@ class HealthBar {
   MIN_HP = 100;
   MAX_HP = 1000;
 
-  constructor(scene, x, y, hp, isPlayer, visible=false, offset=80) {
+  constructor(scene, x, y, hp, isPlayer, visible=false, offset=70) {
       this.bar = new Phaser.GameObjects.Graphics(scene);
 
       this.max = hp;
@@ -69,6 +69,7 @@ class HealthBar {
     var d = Math.floor(this.p * this.value);
 
     this.bar.fillRect(x + 2, y + 2, d, this.height - 4);
+    this.bar.setDepth(999)
   }
 
   destroy() {
