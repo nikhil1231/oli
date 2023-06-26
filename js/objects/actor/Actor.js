@@ -1,6 +1,7 @@
 class Actor extends Phaser.Physics.Arcade.Sprite {
   GRAVITY = 1500;
-  jumpHeight = 900;
+  jumpHeight = 800;
+  dmg = 5;
 
   constructor(
     scene,
@@ -9,6 +10,7 @@ class Actor extends Phaser.Physics.Arcade.Sprite {
     y,
     headImg,
     voice = "default_voice",
+    neckOffset = 0,
     bodyImg = null,
     bulletImg = "bullet",
     healthBarVisible = false,
@@ -20,6 +22,8 @@ class Actor extends Phaser.Physics.Arcade.Sprite {
     this.hp = hp;
     this.bulletImg = bulletImg;
     this.isPlayer = isPlayer;
+    this.isAlive = true;
+    this.invincible = false;
 
     scene.add.existing(this);
     scene.physics.add.existing(this);
@@ -28,7 +32,14 @@ class Actor extends Phaser.Physics.Arcade.Sprite {
     this.setCollideWorldBounds(isPlayer);
 
     this.actorBody = new ActorBody(scene, this.x, this.y, bodyImg, scale);
-    this.actorHead = new ActorHead(scene, this.x, this.y, headImg, scale);
+    this.actorHead = new ActorHead(
+      scene,
+      this.x,
+      this.y,
+      headImg,
+      scale,
+      neckOffset
+    );
     this.healthBar = new HealthBar(
       scene,
       this.x,
@@ -85,24 +96,12 @@ class Actor extends Phaser.Physics.Arcade.Sprite {
   }
 
   enableGun() {
-    this.gun = new Gun(this.scene, this.x, this.y);
+    this.gun = new Gun(this.scene, this.x, this.y, this.isPlayer);
   }
 
-  shoot(pointer) {
-    const bullet = new Bullet(
-      this.scene,
-      this.x,
-      this.y,
-      pointer.x,
-      pointer.y,
-      this.bulletImg,
-      this.dmg
-    );
-    if (this.isPlayer) {
-      this.scene.playerBullets.add(bullet);
-    } else {
-      this.scene.enemyBullets.add(bullet);
-    }
+  disableGun() {
+    this.gun.destroy();
+    this.gun = null;
   }
 
   async moveTo(x, y, v = 500) {
@@ -126,13 +125,30 @@ class Actor extends Phaser.Physics.Arcade.Sprite {
     });
   }
 
+  async moveToX(x, v = 200) {
+    const tolerance = 5;
+    const vel = x > this.x ? v : -v;
+    this.setVelocityX(vel);
+
+    await new Promise(async (r) => {
+      const interval = setInterval(() => {
+        if (Math.abs(x - this.x) < tolerance || !this.isAlive) {
+          if (this.isAlive) this.x = x;
+          this.setVelocity(0);
+          clearInterval(interval);
+          r();
+        }
+      }, 20);
+    });
+  }
+
   async takeDamage(dmg) {
-    if (this.dmgTimeout) return;
+    if (this.dmgTimeout || !this.isAlive) return;
     if (this.invincible) {
       this.scene.blockSound.play();
       return;
     }
-    this.dmgTimeout = true;
+    if (this.isPlayer) this.dmgTimeout = true;
     this.hp -= dmg;
     this.healthBar.visible = true;
 
@@ -143,7 +159,7 @@ class Actor extends Phaser.Physics.Arcade.Sprite {
     }
 
     this._flash();
-    await this.healthBar.setValue(this.hp);
+    this.healthBar.setValue(this.hp);
     this.resetDmgTimeout();
 
     if (this.hp <= 0) {

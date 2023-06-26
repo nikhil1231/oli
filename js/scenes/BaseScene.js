@@ -40,6 +40,7 @@ class BaseScene extends Phaser.Scene {
     this.load.audio("heal", "audio/heal.wav");
     this.load.audio("block", "audio/block.wav");
     this.load.audio("star", "audio/star.wav");
+    this.load.audio("hit", "audio/hit.wav");
 
     this.load.plugin(
       "rexswirlpipelineplugin",
@@ -65,8 +66,10 @@ class BaseScene extends Phaser.Scene {
     this.healSound = this.sound.add("heal");
     this.blockSound = this.sound.add("block");
     this.starSound = this.sound.add("star");
+    this.hitSound = this.sound.add("hit");
 
     this.platforms = this.add.group();
+    this.actors = this.add.group();
 
     this.backgroundImg = new Phaser.GameObjects.Image(
       this,
@@ -74,6 +77,7 @@ class BaseScene extends Phaser.Scene {
       VARS.height / 2,
       "background"
     );
+    this.backgroundImg.setDepth(-100);
     this.add.existing(this.backgroundImg);
 
     this.narrator = new Speech(this, null, this.sound.add("narrator"));

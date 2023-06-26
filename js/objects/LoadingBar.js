@@ -8,6 +8,7 @@ class LoadingBar {
     this.y = y;
     this.max = 100;
     this.value = 0;
+    this.visible = true;
 
     this.width = width;
     this.height = height;
@@ -25,9 +26,9 @@ class LoadingBar {
 
   draw() {
     this.bar.clear();
+    if (!this.visible) return;
 
-    if (this.value < this.max)
-      this.value += 1 * this.speed;
+    if (this.value < this.max) this.value += 1 * this.speed;
 
     const x = this.x;
     const y = this.y;
@@ -50,5 +51,6 @@ class LoadingBar {
 
   destroy() {
     this.bar.clear();
+    this.visible = false;
   }
 }

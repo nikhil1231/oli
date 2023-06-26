@@ -2,9 +2,10 @@ class Gun extends Phaser.Physics.Arcade.Sprite {
   FIRE_RATE = 200;
   BULLET_SPEED = 1000;
 
-  constructor(scene, x, y) {
+  constructor(scene, x, y, isPlayer = false) {
     super(scene, x, y, "gun");
     this.scene = scene;
+    this.isPlayer = isPlayer
 
     scene.add.existing(this);
     scene.physics.world.enableBody(this);
@@ -14,20 +15,8 @@ class Gun extends Phaser.Physics.Arcade.Sprite {
     this.gunshotSound = scene.sound.add("gunshot");
 
     scene.input.on("pointermove", (pointer) => {
-      if (this.flipX) {
-        this.rotation = Phaser.Math.Angle.Between(
-          pointer.x,
-          pointer.y,
-          this.x,
-          this.y
-        );
-      } else {
-        this.rotation = Phaser.Math.Angle.Between(
-          this.x,
-          this.y,
-          pointer.x,
-          pointer.y
-        );
+      if (isPlayer) {
+        this.setPoint(pointer.x, pointer.y)
       }
     });
   }
@@ -39,7 +28,15 @@ class Gun extends Phaser.Physics.Arcade.Sprite {
     this.flipX = flipX;
   }
 
-  shoot(x, y) {
+  setPoint(x, y) {
+    if (this.flipX) {
+      this.rotation = Phaser.Math.Angle.Between(x, y, this.x, this.y);
+    } else {
+      this.rotation = Phaser.Math.Angle.Between(this.x, this.y, x, y);
+    }
+  }
+
+  shoot(x, y, dmg) {
     if (this.isShooting) return;
 
     this.gunshotSound.play();
@@ -56,11 +53,15 @@ class Gun extends Phaser.Physics.Arcade.Sprite {
       x,
       y,
       "bullet",
-      10,
+      dmg,
       this.BULLET_SPEED
     );
 
-    this.scene.playerBullets.add(bullet);
+    if (this.isPlayer) {
+      this.scene.playerBullets.add(bullet);
+    } else {
+      this.scene.enemyBullets.add(bullet);
+    }
 
     this.scene.physics.add.collider(bullet, this.scene.platforms, (b) => {
       b.destroy();

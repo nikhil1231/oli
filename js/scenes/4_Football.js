@@ -24,7 +24,7 @@ class FootballScene extends BaseScene {
       this,
       VARS.playerSpawnX,
       this.FLOOR_Y,
-      "oli_young_1",
+      0,
       false
     );
     this.player.grounded = true;

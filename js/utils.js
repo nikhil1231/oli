@@ -4,6 +4,14 @@ const getRandomInt = (max) => {
   return Math.floor(Math.random() * max);
 }
 
+const getRandomRange = (min, max) => min + getRandomInt(max - min)
+
+const getRandomChance = (perc) => Math.random() < perc
+
+const getRandomBool = () => getRandomChance(0.5)
+
+const getRandomChoice = (arr) => arr[getRandomInt(arr.length)]
+
 const getLevelSave = () => localStorage.getItem('level') || 0;
 
 const setLevelSave = level => {

@@ -6,7 +6,11 @@ class Bound extends Phaser.Physics.Arcade.Sprite {
     scene.add.existing(this);
     scene.physics.add.existing(this);
     scene.physics.world.enableBody(this);
-    scene.physics.add.collider(this, scene.player);
+
+    scene.actors.getChildren().forEach((actor) => {
+      scene.physics.add.collider(this, actor);
+    });
+
     this.body.immovable = true;
 
     this.displayWidth = width;

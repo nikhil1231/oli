@@ -2,11 +2,11 @@ class Player extends Actor {
   static hp = 100;
   static maxHp = Player.hp;
   fireRate = 100;
-  dmg = 20;
+  dmg = 5;
   someoneTalking = false;
   immobile = false;
 
-  constructor(scene, x, y, healthBarVisible = true) {
+  constructor(scene, x, y, neckOffset = 0, healthBarVisible = true) {
     super(
       scene,
       Player.hp,
@@ -14,12 +14,13 @@ class Player extends Actor {
       y,
       "oli",
       "player_speech",
+      neckOffset,
       "body_0",
       "bullet",
       healthBarVisible,
       true
     );
-
+    this.someoneTalking = false
     this.speed = VARS.playerSpeed;
 
     this.cursors = scene.input.keyboard.addKeys({
@@ -32,7 +33,6 @@ class Player extends Actor {
 
     this.resetControls();
 
-    scene.physics.add.existing(this);
     scene.physics.add.overlap(this, scene.powerups, (player, powerup) => {
       this.heal(powerup.amount);
       powerup.destroy();
@@ -107,11 +107,11 @@ class Player extends Actor {
     );
 
     keyW.on("down", () => {
-      this.jump();
+      if (!this.someoneTalking && !this.immobile) this.jump();
     });
 
     keyS.on("down", () => {
-      this.dropDown();
+      if (!this.someoneTalking && !this.immobile) this.dropDown();
     });
   }
 
@@ -119,7 +119,7 @@ class Player extends Actor {
     super.enableGun();
 
     this.scene.input.on("pointerdown", (pointer) => {
-      this.gun.shoot(pointer.x, pointer.y);
+      if (this.gun) this.gun.shoot(pointer.x, pointer.y, this.dmg);
     });
   }
 
