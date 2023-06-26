@@ -15,7 +15,7 @@ const config = {
   height: VARS.height,
   skipSpeech: false,
   backgroundColor: 0x000000,
-  scene: [IntroScene, BasildonScene, FootballScene, ShooterScene].slice(
+  scene: [IntroScene, BasildonScene, FootballScene, ShooterScene, NightOutScene].slice(
     getLevelSave()
   ),
   physics: {

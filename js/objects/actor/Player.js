@@ -20,7 +20,7 @@ class Player extends Actor {
       healthBarVisible,
       true
     );
-    this.someoneTalking = false
+    this.someoneTalking = false;
     this.speed = VARS.playerSpeed;
 
     this.cursors = scene.input.keyboard.addKeys({

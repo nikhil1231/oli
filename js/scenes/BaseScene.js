@@ -28,9 +28,11 @@ class BaseScene extends Phaser.Scene {
     }
 
     this.load.audio("player_speech", "audio/speech/player_speech.wav");
+    this.load.audio("cursed_speech", "audio/speech/cursed.wav");
     this.load.audio("narrator", "audio/speech/narrator.wav");
     this.load.audio("aman", "audio/speech/sans.wav");
     this.load.audio("nikhil", "audio/speech/tor3.wav");
+    this.load.audio("dylan", "audio/speech/sans.wav");
 
     this.load.audio("big_damage_audio", "audio/damage.wav");
     this.load.audio("create", "audio/create.wav");
@@ -41,6 +43,9 @@ class BaseScene extends Phaser.Scene {
     this.load.audio("block", "audio/block.wav");
     this.load.audio("star", "audio/star.wav");
     this.load.audio("hit", "audio/hit.wav");
+    this.load.audio("laugh", "audio/laugh.wav");
+    this.load.audio("laugh2", "audio/laugh2.wav");
+    this.load.audio("laugh3", "audio/laugh3.wav");
 
     this.load.plugin(
       "rexswirlpipelineplugin",
@@ -51,7 +56,7 @@ class BaseScene extends Phaser.Scene {
 
   create() {
     this.fade = new Phaser.GameObjects.Graphics(this);
-    this.fade.setDepth(9999);
+    this.fade.setDepth(500);
     this.add.existing(this.fade);
 
     this.playerBullets = this.add.group();
@@ -67,6 +72,10 @@ class BaseScene extends Phaser.Scene {
     this.blockSound = this.sound.add("block");
     this.starSound = this.sound.add("star");
     this.hitSound = this.sound.add("hit");
+    this.laughSound = this.sound.add("laugh");
+    this.laugh2Sound = this.sound.add("laugh2");
+    this.laugh3Sound = this.sound.add("laugh3");
+    this.cursedSpeechSound = this.sound.add("cursed_speech");
 
     this.platforms = this.add.group();
     this.actors = this.add.group();
@@ -87,8 +96,8 @@ class BaseScene extends Phaser.Scene {
   }
 
   update() {
-    if (this.player) {
-      this.player.update();
+    for (const actor of this.actors.getChildren()) {
+      if (actor) actor.update();
     }
 
     for (const playerBullet of this.playerBullets.getChildren()) {
@@ -110,6 +119,11 @@ class BaseScene extends Phaser.Scene {
 
   async runScript() {
     await this.fadeIn();
+  }
+
+  async setFade(alpha) {
+    this.alpha = alpha;
+    this.draw();
   }
 
   async fadeOut() {

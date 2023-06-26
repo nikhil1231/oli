@@ -166,12 +166,5 @@ class BasildonScene extends BaseScene {
 
   update() {
     super.update();
-
-    if (this.nikhil) {
-      this.nikhil.update();
-    }
-    if (this.aman) {
-      this.aman.update();
-    }
   }
 }

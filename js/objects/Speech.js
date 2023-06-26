@@ -4,6 +4,8 @@ class Speech {
   BORDER = 5;
   ROTATION_X = 0.3;
   ROTATION_S = 0.015;
+  CURSED_START_CHAR = "[";
+  CURSED_END_CHAR = "]";
 
   visible = false;
   isTalking = true;
@@ -11,6 +13,7 @@ class Speech {
   constructor(scene, speakerImg, speechSound) {
     this.scene = scene;
     this.speechSound = speechSound;
+    this.cursedSpeechSound = this.scene.cursedSpeechSound;
     this.box = new Phaser.GameObjects.Graphics(scene);
     this.box.setDepth(998);
 
@@ -127,9 +130,15 @@ class Speech {
 
   async _sayLine(line, done = null) {
     this.isTalking = true;
+    this.isCursed = false;
 
     for (let i = 0; i <= line.length; i++) {
-      if (Math.random() < 0.9) this.speechSound.play();
+      if (line[i] == this.CURSED_START_CHAR) this.curse();
+      if (line[i] == this.CURSED_END_CHAR) this.uncurse();
+
+      const sound = this.isCursed ? this.cursedSpeechSound : this.speechSound;
+
+      if (Math.random() < 0.9) sound.play();
       this.text.setText(line.substring(0, i));
       this.text.setWordWrapWidth(this.x + this.WIDTH - this.text_x - 20);
       if ([",", ".", "!", "?"].includes(line[i])) {
@@ -142,6 +151,16 @@ class Speech {
     if (done) {
       done();
     }
+  }
+
+  curse() {
+    this.isCursed = true;
+    this.scene.setFade(0.4);
+  }
+
+  uncurse() {
+    this.isCursed = false;
+    this.scene.setFade(0);
   }
 
   update() {

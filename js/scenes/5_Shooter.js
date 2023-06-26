@@ -216,7 +216,5 @@ class ShooterScene extends BaseScene {
   update() {
     super.update();
     if (this.loadingBar) this.loadingBar.draw();
-    if (this.aman) this.aman.update();
-    if (this.nikhil) this.nikhil.update();
   }
 }

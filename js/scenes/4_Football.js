@@ -138,11 +138,5 @@ class FootballScene extends BaseScene {
 
   update() {
     super.update();
-    if (this.aman) {
-      this.aman.update();
-    }
-    if (this.nikhil) {
-      this.nikhil.update();
-    }
   }
 }
