@@ -19,4 +19,8 @@ class CollisionTrigger extends Phaser.Physics.Arcade.Sprite {
       });
     });
   }
+
+  setForeverTrigger(obj, cb) {
+    this.scene.physics.add.overlap(this, obj, () => cb());
+  }
 }

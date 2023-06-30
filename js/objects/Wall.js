@@ -1,9 +1,10 @@
-class Wall extends Actor {
-
+class Wall extends Bound {
   dmg = 20;
 
-  constructor(scene, x, y, sideWall=false) {
-    super(scene, 1, x, y, 0.3, "wall", '', false);
+  constructor(scene, x, y, sideWall = false) {
+    super(scene, x, y, 50);
+    this.setTexture("wall");
+    this.setScale(0.3);
     this.sideWall = sideWall;
     this.startingY = y;
     this.setCollideWorldBounds(false);

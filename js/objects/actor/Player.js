@@ -169,6 +169,7 @@ class Player extends Actor {
 
   async die() {
     super.die();
+    if (this.immortal) return;
     this.scene.oofNoise.play();
 
     await pause(500);

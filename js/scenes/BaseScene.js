@@ -33,6 +33,7 @@ class BaseScene extends Phaser.Scene {
     this.load.audio("aman", "audio/speech/sans.wav");
     this.load.audio("nikhil", "audio/speech/tor3.wav");
     this.load.audio("dylan", "audio/speech/sans.wav");
+    this.load.audio("ben", "audio/speech/light.wav");
 
     this.load.audio("big_damage_audio", "audio/damage.wav");
     this.load.audio("create", "audio/create.wav");
@@ -41,7 +42,9 @@ class BaseScene extends Phaser.Scene {
     this.load.audio("death", "audio/death.wav");
     this.load.audio("heal", "audio/heal.wav");
     this.load.audio("block", "audio/block.wav");
+    this.load.audio("break", "audio/break.wav");
     this.load.audio("star", "audio/star.wav");
+    this.load.audio("swoosh", "audio/swoosh.wav");
     this.load.audio("hit", "audio/hit.wav");
     this.load.audio("laugh", "audio/laugh.wav");
     this.load.audio("laugh2", "audio/laugh2.wav");
@@ -70,7 +73,9 @@ class BaseScene extends Phaser.Scene {
     this.deathNoise = this.sound.add("death");
     this.healSound = this.sound.add("heal");
     this.blockSound = this.sound.add("block");
+    this.breakSound = this.sound.add("break");
     this.starSound = this.sound.add("star");
+    this.swooshSound = this.sound.add("swoosh");
     this.hitSound = this.sound.add("hit");
     this.laughSound = this.sound.add("laugh");
     this.laugh2Sound = this.sound.add("laugh2");

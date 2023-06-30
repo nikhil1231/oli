@@ -15,9 +15,15 @@ const config = {
   height: VARS.height,
   skipSpeech: false,
   backgroundColor: 0x000000,
-  scene: [IntroScene, BasildonScene, FootballScene, ShooterScene, NightOutScene].slice(
-    getLevelSave()
-  ),
+  scene: [
+    IntroScene,
+    BasildonScene,
+    FootballScene,
+    ShooterScene,
+    NightOutScene,
+    DrivingScene,
+    PIScene,
+  ].slice(getLevelSave()),
   physics: {
     default: "arcade",
     arcade: {

@@ -1,21 +1,18 @@
-class Vehicle extends Actor {
+class Vehicle extends Thing {
+  constructor(scene, x, y, hp, scale, img, isPlayer, active = false) {
+    super(scene, hp, x, y, img, isPlayer);
 
-  constructor(scene, x, y, img, scale, active=false) {
-    super(scene, 100, x, y, scale, img, '', false, true);
+    this.setScale(scale);
 
-    this.steeringAngle = 0;
+    this.targetSteeringAngle = 0;
     this.controls = false;
 
     if (active) this.activateControls();
   }
 
-  async moveToStatic(x, y, v=500) {
-    await super.moveTo(x, y, v);
-  }
-
-  async moveTo(x, y, v=500) {
+  async moveToRotated(x, y, v = 300) {
     this.setRotation(this.getVectorAngle(x, y));
-    await super.moveTo(x, y, v);
+    await this.moveTo(x, y, v);
   }
 
   activateControls() {
@@ -24,10 +21,8 @@ class Vehicle extends Actor {
       up: Phaser.Input.Keyboard.KeyCodes.W,
       down: Phaser.Input.Keyboard.KeyCodes.S,
       left: Phaser.Input.Keyboard.KeyCodes.A,
-      right: Phaser.Input.Keyboard.KeyCodes.D
+      right: Phaser.Input.Keyboard.KeyCodes.D,
     });
-
-    this.scene.player.body.destroy();
 
     this.setCollideWorldBounds(true);
     this.healthBar.setVisible(true);
@@ -35,7 +30,7 @@ class Vehicle extends Actor {
 
   deactivateControls() {
     this.controls = false;
-    this.steeringAngle = 0;
+    this.targetSteeringAngle = 0;
     this.healthBar.setVisible(false);
     this.setSteerVelocity();
   }
@@ -44,10 +39,10 @@ class Vehicle extends Actor {
     super.update();
 
     if (this.controls) {
-      if (this.steeringAngle > this.MAX_STEERING_ANGLE) {
-        this.steeringAngle = this.MAX_STEERING_ANGLE;
-      } else if (this.steeringAngle < -this.MAX_STEERING_ANGLE) {
-        this.steeringAngle = -this.MAX_STEERING_ANGLE;
+      if (this.targetSteeringAngle > this.MAX_STEERING_ANGLE) {
+        this.targetSteeringAngle = this.MAX_STEERING_ANGLE;
+      } else if (this.targetSteeringAngle < -this.MAX_STEERING_ANGLE) {
+        this.targetSteeringAngle = -this.MAX_STEERING_ANGLE;
       }
 
       this.setSteerVelocity();

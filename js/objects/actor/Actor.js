@@ -1,4 +1,4 @@
-class Actor extends Phaser.Physics.Arcade.Sprite {
+class Actor extends Thing {
   GRAVITY = 1500;
   jumpHeight = 800;
   dmg = 5;
@@ -17,17 +17,12 @@ class Actor extends Phaser.Physics.Arcade.Sprite {
     isPlayer = false,
     scale = VARS.scale
   ) {
-    super(scene, x, y);
-    this.scene = scene;
-    this.hp = hp;
+    super(scene, hp, x, y, null, isPlayer);
     this.bulletImg = bulletImg;
     this.isPlayer = isPlayer;
     this.isAlive = true;
     this.invincible = false;
 
-    scene.add.existing(this);
-    scene.physics.add.existing(this);
-    scene.physics.world.enableBody(this);
     this.setScale(scale);
     this.setCollideWorldBounds(isPlayer);
 
@@ -40,18 +35,6 @@ class Actor extends Phaser.Physics.Arcade.Sprite {
       scale,
       neckOffset
     );
-    this.healthBar = new HealthBar(
-      scene,
-      this.x,
-      this.y,
-      this.hp,
-      isPlayer,
-      healthBarVisible
-    );
-    this.dmgTimeout = false;
-    this.dmgTimeoutLength = 2000;
-
-    this.bigDamageSound = scene.sound.add("big_damage_audio");
 
     // SETTING BOUNDS
     this.setSize(this.actorHead.width * 0.8, 350);
@@ -63,22 +46,12 @@ class Actor extends Phaser.Physics.Arcade.Sprite {
     // SPEECH
     const speechVoice = this.scene.sound.add(voice);
     this.speech = new Speech(scene, headImg, speechVoice);
-
-    // COLLISION
-    scene.physics.add.overlap(
-      this,
-      isPlayer ? scene.enemyBullets : scene.playerBullets,
-      (actor, bullet) => {
-        this.takeDamage(bullet.dmg);
-        bullet.destroy();
-      }
-    );
   }
 
   update() {
+    super.update();
     this.actorHead.setPosition(this.x, this.y);
     this.actorBody.setPosition(this.x, this.y);
-    this.healthBar.setPosition(this.x, this.y);
     if (this.gun) this.gun.update(this.x, this.y, this.flipX);
 
     this.actorHead.setFlipX(this.flipX);
@@ -104,143 +77,8 @@ class Actor extends Phaser.Physics.Arcade.Sprite {
     this.gun = null;
   }
 
-  async moveTo(x, y, v = 500) {
-    const tolerance = 20;
-    this.setVelocity(...this.getVelocityVector(v, x, y));
-    await new Promise(async (r) => {
-      while (true) {
-        this.update();
-        if (
-          Math.abs(x - this.x) < tolerance &&
-          Math.abs(y - this.y) < tolerance
-        ) {
-          this.x = x;
-          this.y = y;
-          this.setVelocity(0);
-          r();
-          break;
-        }
-        await pause(10);
-      }
-    });
-  }
-
-  async moveToX(x, v = 200) {
-    const tolerance = 5;
-    const vel = x > this.x ? v : -v;
-    this.setVelocityX(vel);
-
-    await new Promise(async (r) => {
-      const interval = setInterval(() => {
-        if (Math.abs(x - this.x) < tolerance || !this.isAlive) {
-          if (this.isAlive) this.x = x;
-          this.setVelocity(0);
-          clearInterval(interval);
-          r();
-        }
-      }, 20);
-    });
-  }
-
-  async takeDamage(dmg) {
-    if (this.dmgTimeout || !this.isAlive) return;
-    if (this.invincible) {
-      this.scene.blockSound.play();
-      return;
-    }
-    if (this.isPlayer) this.dmgTimeout = true;
-    this.hp -= dmg;
-    this.healthBar.visible = true;
-
-    if (dmg >= this.healthBar.max * 0.1) {
-      this.bigDamageSound.play();
-    } else {
-      // this.damageSound.play();
-    }
-
-    this._flash();
-    this.healthBar.setValue(this.hp);
-    this.resetDmgTimeout();
-
-    if (this.hp <= 0) {
-      this.die();
-      return true;
-    }
-  }
-
-  async resetDmgTimeout() {
-    await pause(this.dmgTimeoutLength);
-    this.dmgTimeout = false;
-  }
-
-  setHealth(hp) {
-    this.hp = hp;
-    this.healthBar.visible = true;
-    this.healthBar.setValue(this.hp, false);
-  }
-
   setHeadTexture(img) {
     this.actorHead.setTexture(img);
     this.speech.img.setTexture(img);
-  }
-
-  enableGravity() {
-    this.gravityEnabled = true;
-    this.body.allowGravity = true;
-    this.body.setGravityY(this.GRAVITY);
-  }
-
-  jump() {
-    if (this.body.touching.down) {
-      this.body.velocity.y = -this.jumpHeight;
-    }
-  }
-
-  dropDown() {
-    if (this.body.touching.down) {
-      this.y += 3;
-    }
-  }
-
-  async _flash() {
-    const t = 50;
-    while (this.dmgTimeout) {
-      this.setAlpha(0.5);
-      await pause(t);
-      this.setAlpha(1);
-      await pause(t);
-    }
-  }
-
-  async rotateLerp(R) {
-    if (R > Math.PI) {
-      R -= Math.PI * 2;
-    }
-    const dr = (R - this.rotation) / 60;
-    while (Math.abs(R - this.rotation) > 0.05) {
-      this.setRotation(this.rotation + dr);
-      await pause(20);
-    }
-    this.setRotation(R);
-  }
-
-  die() {
-    this.isAlive = false;
-  }
-
-  destroy() {
-    super.destroy();
-    this.healthBar.destroy();
-  }
-
-  getVelocityVector(v, destX, destY) {
-    const angle = this.getVectorAngle(destX, destY);
-    const velX = v * Math.cos(angle);
-    const velY = v * Math.sin(angle);
-    return [velX, velY];
-  }
-
-  getVectorAngle(destX, destY) {
-    return Math.PI / 2 - Math.atan2(destX - this.x, destY - this.y);
   }
 }
