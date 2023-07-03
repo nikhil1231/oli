@@ -132,7 +132,7 @@ class NightOutScene extends BaseScene {
         }
         await this.nikhil.say([nikhilResponse]);
       } else {
-        // await this.nikhil.say(["Nooooo, Oli please I literally just made this drink, it's basically 50/50."]);
+        await this.nikhil.say(["Nooooo, Oli please I literally just made this drink, it's basically 50/50."]);
         const res = await this.nikhil.ask(
           "Please, have mercyyyyy...",
           ["Alright fine..", "Down it you bitch."],

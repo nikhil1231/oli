@@ -7,6 +7,7 @@ const VARS = {
   bulletSpeed: 300,
   bulletDmg: 2,
   scale: 0.4,
+  gravity: 1000,
 };
 
 const config = {
@@ -23,6 +24,7 @@ const config = {
     NightOutScene,
     DrivingScene,
     PIScene,
+    AcidScene,
   ].slice(getLevelSave()),
   physics: {
     default: "arcade",

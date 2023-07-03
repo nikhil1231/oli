@@ -50,8 +50,8 @@ class Enemy extends Actor {
     if (this.gravityEnabled) {
       if (this.gun) this.disableGun();
       this.setVelocity(0);
-      this.disableBody();
     }
+    this.disableBody();
   }
 
   startAttacking() {

@@ -23,4 +23,10 @@ class CollisionTrigger extends Phaser.Physics.Arcade.Sprite {
   setForeverTrigger(obj, cb) {
     this.scene.physics.add.overlap(this, obj, () => cb());
   }
+
+  enableGravity() {
+    this.gravityEnabled = true;
+    this.body.allowGravity = true;
+    this.body.setGravityY(VARS.gravity);
+  }
 }

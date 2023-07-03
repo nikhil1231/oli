@@ -33,6 +33,12 @@ class Player extends Actor {
 
     this.resetControls();
 
+    this.setSize(this.actorHead.width * 0.5, 320);
+    this.setOffset(
+      -this.actorHead.width / 2 + 70,
+      -this.actorHead.height / 2 + 60
+    );
+
     scene.physics.add.overlap(this, scene.powerups, (player, powerup) => {
       this.heal(powerup.amount);
       powerup.destroy();
@@ -119,7 +125,24 @@ class Player extends Actor {
     super.enableGun();
 
     this.scene.input.on("pointerdown", (pointer) => {
-      if (this.gun) this.gun.shoot(pointer.x, pointer.y, this.dmg);
+      if (
+        this.gun &&
+        !this.immobile &&
+        !this.someoneTalking &&
+        !this.isShooting
+      ) {
+        this.isShooting = true;
+        this.gun.shoot(pointer.x, pointer.y, this.dmg);
+        this.shootingInterval = setInterval(() => {
+          this.gun.shoot(pointer.x, pointer.y, this.dmg);
+        }, this.gun.FIRE_RATE);
+      }
+    });
+    this.scene.input.on("pointerup", (pointer) => {
+      if (this.gun && !this.immobile) {
+        clearInterval(this.shootingInterval);
+        this.isShooting = false;
+      }
     });
   }
 

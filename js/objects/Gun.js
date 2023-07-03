@@ -2,10 +2,11 @@ class Gun extends Phaser.Physics.Arcade.Sprite {
   FIRE_RATE = 200;
   BULLET_SPEED = 1000;
 
-  constructor(scene, x, y, isPlayer = false) {
+  constructor(scene, x, y, isPlayer = false, bulletImg = "bullet") {
     super(scene, x, y, "gun");
     this.scene = scene;
-    this.isPlayer = isPlayer
+    this.isPlayer = isPlayer;
+    this.bulletImg = bulletImg;
 
     scene.add.existing(this);
     scene.physics.world.enableBody(this);
@@ -16,7 +17,7 @@ class Gun extends Phaser.Physics.Arcade.Sprite {
 
     scene.input.on("pointermove", (pointer) => {
       if (isPlayer) {
-        this.setPoint(pointer.x, pointer.y)
+        this.setPoint(pointer.x, pointer.y);
       }
     });
   }
@@ -46,25 +47,16 @@ class Gun extends Phaser.Physics.Arcade.Sprite {
       this.isShooting = false;
     }, 200);
 
-    const bullet = new Bullet(
+    new Bullet(
       this.scene,
       this.x + this.rotation * 5,
       this.y - 10,
       x,
       y,
-      "bullet",
+      this.bulletImg,
       dmg,
+      this.isPlayer,
       this.BULLET_SPEED
     );
-
-    if (this.isPlayer) {
-      this.scene.playerBullets.add(bullet);
-    } else {
-      this.scene.enemyBullets.add(bullet);
-    }
-
-    this.scene.physics.add.collider(bullet, this.scene.platforms, (b) => {
-      b.destroy();
-    });
   }
 }

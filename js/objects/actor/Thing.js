@@ -24,6 +24,7 @@ class Thing extends Phaser.Physics.Arcade.Sprite {
       (actor, bullet) => {
         this.takeDamage(bullet.dmg);
         bullet.destroy();
+        if (!isPlayer) scene.hitmarkerSound.play();
       }
     );
   }
@@ -129,7 +130,7 @@ class Thing extends Phaser.Physics.Arcade.Sprite {
   async _flash() {
     const t = 50;
     while (this.dmgTimeout) {
-      this.setAlpha(0.5);
+      this.setAlpha(0.7);
       await pause(t);
       this.setAlpha(1);
       await pause(t);

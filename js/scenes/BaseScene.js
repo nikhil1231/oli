@@ -34,6 +34,7 @@ class BaseScene extends Phaser.Scene {
     this.load.audio("nikhil", "audio/speech/tor3.wav");
     this.load.audio("dylan", "audio/speech/sans.wav");
     this.load.audio("ben", "audio/speech/light.wav");
+    this.load.audio("ossian", "audio/speech/wngdng.wav");
 
     this.load.audio("big_damage_audio", "audio/damage.wav");
     this.load.audio("create", "audio/create.wav");
@@ -43,9 +44,13 @@ class BaseScene extends Phaser.Scene {
     this.load.audio("heal", "audio/heal.wav");
     this.load.audio("block", "audio/block.wav");
     this.load.audio("break", "audio/break.wav");
+    this.load.audio("beam", "audio/beam.wav");
+    this.load.audio("charge", "audio/charge.wav");
     this.load.audio("star", "audio/star.wav");
     this.load.audio("swoosh", "audio/swoosh.wav");
     this.load.audio("hit", "audio/hit.wav");
+    this.load.audio("hitmarker", "audio/hitmarker.wav");
+    this.load.audio("click", "audio/click.wav");
     this.load.audio("laugh", "audio/laugh.wav");
     this.load.audio("laugh2", "audio/laugh2.wav");
     this.load.audio("laugh3", "audio/laugh3.wav");
@@ -77,10 +82,17 @@ class BaseScene extends Phaser.Scene {
     this.starSound = this.sound.add("star");
     this.swooshSound = this.sound.add("swoosh");
     this.hitSound = this.sound.add("hit");
+    this.hitmarkerSound = this.sound.add("hitmarker", {
+      volume: 0.5,
+    });
+    this.clickSound = this.sound.add("click");
     this.laughSound = this.sound.add("laugh");
     this.laugh2Sound = this.sound.add("laugh2");
     this.laugh3Sound = this.sound.add("laugh3");
     this.cursedSpeechSound = this.sound.add("cursed_speech");
+    this.beamSound = this.sound.add("beam", {
+      volume: 0.5,
+    });
 
     this.platforms = this.add.group();
     this.actors = this.add.group();
@@ -120,6 +132,17 @@ class BaseScene extends Phaser.Scene {
     for (const enemyBullet of this.enemyBullets.getChildren()) {
       enemyBullet.update();
     }
+  }
+
+  async awaitDeaths(enemies) {
+    await new Promise((r) => {
+      const i = setInterval(() => {
+        if (enemies.every((enemy) => !enemy.isAlive)) {
+          r();
+          clearInterval(i);
+        }
+      }, 20);
+    });
   }
 
   async runScript() {
