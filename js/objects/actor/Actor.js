@@ -114,4 +114,13 @@ class Actor extends Thing {
     this.actorHead.setTexture(img);
     this.speech.img.setTexture(img);
   }
+
+  lookAt(x, y) {
+    if (this.lockFlip) return;
+    if (this.flipX) {
+      this.actorHead.rotation = Phaser.Math.Angle.Between(x, y, this.x, this.y);
+    } else {
+      this.actorHead.rotation = Phaser.Math.Angle.Between(this.x, this.y, x, y);
+    }
+  }
 }

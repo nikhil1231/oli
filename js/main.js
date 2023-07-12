@@ -25,6 +25,7 @@ const config = {
     DrivingScene,
     PIScene,
     AcidScene,
+    SamScene,
   ].slice(getLevelSave()),
   physics: {
     default: "arcade",

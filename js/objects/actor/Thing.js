@@ -34,7 +34,7 @@ class Thing extends Phaser.Physics.Arcade.Sprite {
     this.healthBar.setPosition(this.x, this.y);
   }
 
-  async moveTo(x, y, v = 500) {
+  async moveTo(x, y, v = 500, cb = null) {
     const tolerance = 20;
     this.setVelocity(...this.getVelocityVector(v, x, y));
     await new Promise(async (r) => {
@@ -47,6 +47,7 @@ class Thing extends Phaser.Physics.Arcade.Sprite {
           this.x = x;
           this.y = y;
           this.setVelocity(0);
+          if (cb) cb();
           r();
           break;
         }
@@ -56,19 +57,21 @@ class Thing extends Phaser.Physics.Arcade.Sprite {
   }
 
   async moveToX(x, v = 200) {
-    const tolerance = 5;
+    const period = 20;
     const vel = x > this.x ? v : -v;
     this.setVelocityX(vel);
+    let lastDist = Math.abs(x - this.x);
 
     await new Promise(async (r) => {
       const interval = setInterval(() => {
-        if (Math.abs(x - this.x) < tolerance || !this.isAlive) {
+        if (Math.abs(x - this.x) > lastDist || !this.isAlive) {
           if (this.isAlive) this.x = x;
           this.setVelocity(0);
           clearInterval(interval);
           r();
         }
-      }, 20);
+        lastDist = Math.abs(x - this.x);
+      }, period);
     });
   }
 

@@ -42,6 +42,9 @@ class Enemy extends Actor {
     if (this.gun) {
       this.gun.setPoint(...this.playerPosition());
     }
+    if (this.lookAtPlayer) {
+      this.lookAt(...this.playerPosition());
+    }
   }
 
   die() {
@@ -52,6 +55,10 @@ class Enemy extends Actor {
       this.setVelocity(0);
     }
     this.disableBody();
+  }
+
+  setLookAtPlayer(l) {
+    this.lookAtPlayer = l;
   }
 
   startAttacking() {

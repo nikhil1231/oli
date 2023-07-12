@@ -35,6 +35,7 @@ class BaseScene extends Phaser.Scene {
     this.load.audio("dylan", "audio/speech/sans.wav");
     this.load.audio("ben", "audio/speech/light.wav");
     this.load.audio("ossian", "audio/speech/wngdng.wav");
+    this.load.audio("sam", "audio/speech/sans.wav");
 
     this.load.audio("big_damage_audio", "audio/damage.wav");
     this.load.audio("create", "audio/create.wav");
@@ -45,9 +46,11 @@ class BaseScene extends Phaser.Scene {
     this.load.audio("block", "audio/block.wav");
     this.load.audio("break", "audio/break.wav");
     this.load.audio("beam", "audio/beam.wav");
+    this.load.audio("rar", "audio/rar.wav");
     this.load.audio("charge", "audio/charge.wav");
     this.load.audio("star", "audio/star.wav");
     this.load.audio("swoosh", "audio/swoosh.wav");
+    this.load.audio("slide", "audio/slide.wav");
     this.load.audio("hit", "audio/hit.wav");
     this.load.audio("hitmarker", "audio/hitmarker.wav");
     this.load.audio("click", "audio/click.wav");
@@ -79,8 +82,10 @@ class BaseScene extends Phaser.Scene {
     this.healSound = this.sound.add("heal");
     this.blockSound = this.sound.add("block");
     this.breakSound = this.sound.add("break");
+    this.rarSound = this.sound.add("rar");
     this.starSound = this.sound.add("star");
     this.swooshSound = this.sound.add("swoosh");
+    this.slideSound = this.sound.add("slide");
     this.hitSound = this.sound.add("hit");
     this.hitmarkerSound = this.sound.add("hitmarker", {
       volume: 0.5,
@@ -171,6 +176,27 @@ class BaseScene extends Phaser.Scene {
       await pause(20);
     }
     this.alpha = to;
+  }
+
+  async zoomAndPanTo(
+    zoomLevel,
+    x,
+    y,
+    time,
+    spriteToFollow = null,
+    easing = "Sine.easeInOut"
+  ) {
+    return new Promise((r) => {
+      const camera = this.cameras.main;
+      camera.pan(x, y, time, easing, true, (camera, progress) => {
+        if (spriteToFollow) {
+          camera.panEffect.destination.x = spriteToFollow.x;
+          camera.panEffect.destination.y = spriteToFollow.y;
+        }
+        if (progress === 1) r();
+      });
+      camera.zoomTo(zoomLevel, time, easing);
+    });
   }
 
   async swirlNextLevel() {

@@ -22,6 +22,7 @@ class Player extends Actor {
     );
     this.someoneTalking = false;
     this.speed = VARS.playerSpeed;
+    this.jumpable = true;
 
     this.cursors = scene.input.keyboard.addKeys({
       up: Phaser.Input.Keyboard.KeyCodes.W,
@@ -87,21 +88,7 @@ class Player extends Actor {
     this.isOnFloor = true;
 
     this.scene.input.on("pointermove", (pointer) => {
-      if (this.flipX) {
-        this.actorHead.rotation = Phaser.Math.Angle.Between(
-          pointer.x,
-          pointer.y,
-          this.x,
-          this.y
-        );
-      } else {
-        this.actorHead.rotation = Phaser.Math.Angle.Between(
-          this.x,
-          this.y,
-          pointer.x,
-          pointer.y
-        );
-      }
+      this.lookAt(pointer.x, pointer.y);
     });
 
     const keyW = this.scene.input.keyboard.addKey(
@@ -113,7 +100,7 @@ class Player extends Actor {
     );
 
     keyW.on("down", () => {
-      if (!this.someoneTalking && !this.immobile) this.jump();
+      if (!this.someoneTalking && !this.immobile && this.jumpable) this.jump();
     });
 
     keyS.on("down", () => {
@@ -158,6 +145,10 @@ class Player extends Actor {
   setImmobile(im) {
     this.setVelocity(0);
     this.immobile = im;
+  }
+
+  setJump(j) {
+    this.jumpable = j;
   }
 
   async setControlRotation(rot) {

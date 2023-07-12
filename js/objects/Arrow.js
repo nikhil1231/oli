@@ -6,6 +6,6 @@ class Arrow extends Phaser.Physics.Arcade.Sprite {
 
     scene.add.existing(this);
     scene.physics.world.enableBody(this);
-    this.setScale(0.1);
+    this.setScale(0.5);
   }
 }
