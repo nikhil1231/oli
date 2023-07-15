@@ -313,7 +313,19 @@ class AcidScene extends BaseScene {
 
       await pause();
 
-      // TODO: dialogue
+      await this.ossian.say([
+        "Why won't you die, you puny human?",
+        "We are immortal.",
+        "Resistance is futile.",
+        "Let us kill you.",
+      ]);
+      await this.nikhil.say([
+        "But Demon Ossian, I thought that we could only regenerate twice before our forms decompose?",
+      ]);
+      await this.ossian.say([
+        "Silence, you fool!",
+        "No more playing around, let's defeat him.",
+      ]);
 
       this.clickSound.play();
       this.setFade(1);
@@ -333,7 +345,7 @@ class AcidScene extends BaseScene {
       this.setFade(0);
 
       if (this.isFirstTimePhase2) {
-        // TODO: dialogue
+        // dialogue maybe
       } else {
         this.fightMusic.play();
       }
@@ -350,8 +362,8 @@ class AcidScene extends BaseScene {
       this.fightMusic.stop();
       await pause();
 
-      // TODO: dialogue
       await this.ossian.say([
+        "Alright yes, I lied, we're not immortal.",
         "Consider yourself free..",
         "..for now...",
         "Come, Demon Nikhil, let us go and consume some DMT.",
