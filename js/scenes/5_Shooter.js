@@ -5,7 +5,7 @@ class ShooterScene extends BaseScene {
   PLAYER_SPEED = 500;
 
   constructor() {
-    super(ShooterScene.SCENE_CODE, "blackops_loading");
+    super(ShooterScene.SCENE_CODE, "blackops", true);
   }
 
   preload() {
@@ -18,6 +18,7 @@ class ShooterScene extends BaseScene {
     this.load.image("oli", "img/character/face/oli_young_2.png");
     this.load.image("gun", "img/gun.png");
     this.load.image("bullet", "img/bullet.png");
+    this.load.image("bullet_red", "img/bullet_red.png");
     this.load.image("platform", "img/platform.png");
 
     this.load.audio("gunshot", "audio/gunshot.wav");
@@ -166,14 +167,42 @@ class ShooterScene extends BaseScene {
       await this.aman.say(["For fucks sake.", "Nikhil, you're shit."]);
 
       if (nikDiedFirst) {
-        await this.nikhil.say(["What are you talking about??", "Maybe I wouldn't have died if you could actually aim."]);
+        await this.nikhil.say([
+          "What are you talking about??",
+          "Maybe I wouldn't have died if you could actually aim.",
+        ]);
       } else {
         await this.nikhil.say(["How am I the bad one, you died first!"]);
       }
 
-      await this.player.say(["Look, clearly you're both shit, and I'm the best out of all of us."])
+      await this.player.say([
+        "Look, clearly you're both shit, and I'm the best out of all of us.",
+      ]);
 
-      // TODO: Segue into next scene
+      await this.aman.say(["Let's do a 1v1 Oli, I'll fuck you up."]);
+      await this.nikhil.say(["No I'm bored of this, let's play Monopoly."]);
+      await this.aman.say([
+        "Mate you've lost every time, there's no point even playing.",
+      ]);
+
+      await this.swirlTease(70, 100);
+
+      await pause(1000);
+
+      await this.player.say([
+        "Ah, fuck, not again...",
+        "I wonder where it'll take me next.",
+      ]);
+
+      await this.nikhil.say([
+        "Wait where are you going??",
+        "I thought we were going to play table tennis after this?",
+      ]);
+
+      await this.player.say([
+        "Sorry mate, I wish I could control this.",
+        "I'll see you guys when we're older, I guess.",
+      ]);
 
       await this.swirlNextLevel();
     };
@@ -188,6 +217,9 @@ class ShooterScene extends BaseScene {
         5
       );
       this.nikhil = new Enemy(this, 200, VARS.width - 400, 100, "nikhil", 5);
+
+      this.aman.dmg = 7;
+      this.nikhil.dmg = 7;
 
       this.aman.enableGravity();
       this.nikhil.enableGravity();

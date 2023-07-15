@@ -2,10 +2,11 @@ class BaseScene extends Phaser.Scene {
   fadeSpeed = 0.02;
   swirlLevel = 300;
 
-  constructor(name, background = null) {
+  constructor(name, background = null, hasBackgroundMusic = false) {
     super(name);
     this.SCENE_CODE = name;
     this.background = background;
+    this.hasBackgroundMusic = hasBackgroundMusic;
   }
 
   preload() {
@@ -25,6 +26,9 @@ class BaseScene extends Phaser.Scene {
     this.load.image("body_10", "img/character/body/10.png");
     if (this.background) {
       this.load.image("background", `img/backgrounds/${this.background}.png`);
+    }
+    if (this.hasBackgroundMusic) {
+      this.load.audio("background_music", `audio/music/${this.background}.mp3`);
     }
 
     this.load.audio("player_speech", "audio/speech/player_speech.wav");
@@ -110,6 +114,15 @@ class BaseScene extends Phaser.Scene {
     );
     this.backgroundImg.setDepth(-100);
     this.add.existing(this.backgroundImg);
+
+    if (this.hasBackgroundMusic) {
+      this.backgroundMusic = this.sound.add("background_music", {
+        volume: 0.3,
+        loop: true,
+      });
+
+      this.backgroundMusic.play();
+    }
 
     this.narrator = new Speech(this, null, this.sound.add("narrator"));
 

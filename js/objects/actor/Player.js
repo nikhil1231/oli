@@ -121,6 +121,10 @@ class Player extends Actor {
         this.isShooting = true;
         this.gun.shoot(pointer.x, pointer.y, this.dmg);
         this.shootingInterval = setInterval(() => {
+          if (!this.gun) {
+            clearInterval(this.shootingInterval);
+            return;
+          }
           this.gun.shoot(pointer.x, pointer.y, this.dmg);
         }, this.gun.FIRE_RATE);
       }
