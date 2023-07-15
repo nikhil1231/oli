@@ -93,139 +93,139 @@ class SamScene extends BaseScene {
       this.player.setJump(false);
       this.player.speed = 100;
 
-      // await pause();
+      await pause();
 
-      // await this.player.say([
-      //   "Fucks sake, why is it so dark?",
-      //   "And why do my knees hurt again..?",
-      //   "It appears I'm back in my normal body",
-      //   "Well, it was nice to feel young again for a bit.",
-      // ]);
+      await this.player.say([
+        "Fucks sake, why is it so dark?",
+        "And why do my knees hurt again..?",
+        "It appears I'm back in my normal body",
+        "Well, it was nice to feel young again for a bit.",
+      ]);
 
-      // await pause();
+      await pause();
 
-      // await this.player.say(["Wait a minute.", "I know this place.."]);
+      await this.player.say(["Wait a minute.", "I know this place.."]);
 
-      // await this.zoomAndPanTo(
-      //   3,
-      //   this.player.x,
-      //   this.player.y,
-      //   2000,
-      //   this.player,
-      //   "Sine.easeInOut"
-      // );
-      // this.cameraFollowPlayer = true;
+      await this.zoomAndPanTo(
+        3,
+        this.player.x,
+        this.player.y,
+        2000,
+        this.player,
+        "Sine.easeInOut"
+      );
+      this.cameraFollowPlayer = true;
 
-      // let collisionTrigger = new CollisionTrigger(
-      //   this,
-      //   this.sam.x - 10,
-      //   VARS.height / 2,
-      //   50,
-      //   VARS.height
-      // );
-      // await collisionTrigger.setTrigger(this.player);
+      let collisionTrigger = new CollisionTrigger(
+        this,
+        this.sam.x - 10,
+        VARS.height / 2,
+        50,
+        VARS.height
+      );
+      await collisionTrigger.setTrigger(this.player);
 
       this.player.setImmobile(true);
-      // this.player.setHeadTexture("oli_scared");
-      // this.samScream.play();
-      // this.darkness.setScale(0.9);
+      this.player.setHeadTexture("oli_scared");
+      this.samScream.play();
+      this.darkness.setScale(0.9);
 
-      // await pause(5000);
+      await pause(5000);
 
-      // this.sam.setHeadTexture("sam_smiling");
-      // this.cameraFollowPlayer = false;
-      // await this.zoomAndPanTo(1, VARS.width / 2, VARS.height / 2, 1000);
+      this.sam.setHeadTexture("sam_smiling");
+      this.cameraFollowPlayer = false;
+      await this.zoomAndPanTo(1, VARS.width / 2, VARS.height / 2, 1000);
 
-      // await this.sam.say(["OLI!"]);
-      // this.player.setHeadTexture("oli_smiling");
-      // await this.player.say([
-      //   "SAM!",
-      //   "Jesus Christ, I'm glad to see you.",
-      //   "I think I'm stuck in some kind of nightmare.",
-      //   "Fuck, I might even just be dead.",
-      // ]);
-      // await this.sam.say(["Maybe it's OK to be dead."]);
-      // await this.player.say([
-      //   "Please tell me you're not going to turn into a demon and try to kill me.",
-      // ]);
-      // await this.sam.say([
-      //   "What are you on about mate?",
-      //   "Don't worry, everything's normal here.",
-      //   "At least, as far as I know.",
-      // ]);
-      // await this.player.say([
-      //   "Thank fuck for that.",
-      //   "Also, why is it so dark in here?",
-      // ]);
-      // await this.sam.say([
-      //   "That's a good question.",
-      //   "I turned off the lights but I can't remember why..",
-      //   "I remember it being an important reason, that's for sure.",
-      // ]);
+      await this.sam.say(["OLI!"]);
+      this.player.setHeadTexture("oli_smiling");
+      await this.player.say([
+        "SAM!",
+        "Jesus Christ, I'm glad to see you.",
+        "I think I'm stuck in some kind of nightmare.",
+        "Fuck, I might even just be dead.",
+      ]);
+      await this.sam.say(["Maybe it's OK to be dead."]);
+      await this.player.say([
+        "Please tell me you're not going to turn into a demon and try to kill me.",
+      ]);
+      await this.sam.say([
+        "What are you on about mate?",
+        "Don't worry, everything's normal here.",
+        "At least, as far as I know.",
+      ]);
+      await this.player.say([
+        "Thank fuck for that.",
+        "Also, why is it so dark in here?",
+      ]);
+      await this.sam.say([
+        "That's a good question.",
+        "I turned off the lights but I can't remember why..",
+        "I remember it being an important reason, that's for sure.",
+      ]);
 
-      // await pause();
+      await pause();
 
-      // await this.sam.say(["Oh well, doesn't matter."]);
+      await this.sam.say(["Oh well, doesn't matter."]);
 
-      // await this.zoomAndPanTo(
-      //   3,
-      //   this.player.x,
-      //   this.player.y,
-      //   2000,
-      //   this.player,
-      //   "Sine.easeInOut"
-      // );
+      await this.zoomAndPanTo(
+        3,
+        this.player.x,
+        this.player.y,
+        2000,
+        this.player,
+        "Sine.easeInOut"
+      );
 
-      // await pause(1000);
+      await pause(1000);
 
-      // this.clickSound.play();
+      this.clickSound.play();
       this.darkness.visible = false;
 
-      // await pause(1000);
+      await pause(1000);
 
-      // await this.zoomAndPanTo(1, VARS.width / 2, VARS.height / 2, 10000);
+      await this.zoomAndPanTo(1, VARS.width / 2, VARS.height / 2, 10000);
 
-      // await this.player.say([
-      //   "Well, I didn't think I'd be back here so soon.",
-      //   "What are you even doing here, Sam?",
-      // ]);
-      // await this.sam.say([
-      //   "Bro I live here.",
-      //   "I moved in 2 months ago, remember?",
-      // ]);
-      // await this.player.say(["I think I'd remember something like-"]);
+      await this.player.say([
+        "Well, I didn't think I'd be back here so soon.",
+        "What are you even doing here, Sam?",
+      ]);
+      await this.sam.say([
+        "Bro I live here.",
+        "I moved in 2 months ago, remember?",
+      ]);
+      await this.player.say(["I think I'd remember something like-"]);
 
-      // this.laugh2Sound.play();
+      this.laugh2Sound.play();
 
-      // await pause(1000);
-      // this.player.setHeadTexture("oli");
-      // await pause(1000);
+      await pause(1000);
+      this.player.setHeadTexture("oli");
+      await pause(1000);
 
-      // await this.player.say(["What", "the fuck", "was that."]);
-      // await this.sam.say(["Oh that's just the alien music men."]);
-      // await this.player.say([
-      //   "Bro what even is that.",
-      //   "Why can't I get a break from all this nonsense??",
-      //   "Whoever came up with all this has a terrible imagination.",
-      // ]);
-      // await this.sam.say([
-      //   "Don't worry about them, bro.",
-      //   "As long as they're not hungry we'll be fine.",
-      // ]);
-      // await this.player.say(["Well how do we know if they're hungry?"]);
-      // await this.sam.say(["Oh, you'll know."]);
+      await this.player.say(["What", "the fuck", "was that."]);
+      await this.sam.say(["Oh that's just the alien music men."]);
+      await this.player.say([
+        "Bro what even is that.",
+        "Why can't I get a break from all this nonsense??",
+        "Whoever came up with all this has a terrible imagination.",
+      ]);
+      await this.sam.say([
+        "Don't worry about them, bro.",
+        "As long as they're not hungry we'll be fine.",
+      ]);
+      await this.player.say(["Well how do we know if they're hungry?"]);
+      await this.sam.say(["Oh, you'll know."]);
 
-      // await pause(1000);
+      await pause(1000);
 
-      // this.rarSound.play();
+      this.rarSound.play();
 
-      // await pause(1000);
+      await pause(1000);
 
-      // this.sam.setHeadTexture("sam");
-      // await this.sam.say([
-      //   "Oh fuck, they're hungry.",
-      //   "And they're coming this way, don't fucking move.",
-      // ]);
+      this.sam.setHeadTexture("sam");
+      await this.sam.say([
+        "Oh fuck, they're hungry.",
+        "And they're coming this way, don't fucking move.",
+      ]);
 
       for (let i = 0; i < this.NUM_NOTES; i++) {
         this.notes[i].moveToX(300 + i * this.noteSpacing);
@@ -233,31 +233,31 @@ class SamScene extends BaseScene {
 
       await pause(3000);
 
-      // await this.player.say(["Oh, they're much less scary than I imagined."]);
+      await this.player.say(["Oh, they're much less scary than I imagined."]);
 
-      // await pause(1000);
+      await pause(1000);
 
-      // this.dunun.play();
+      this.dunun.play();
 
-      // this.notes.forEach((note) => note.setEvil(true));
+      this.notes.forEach((note) => note.setEvil(true));
 
-      // await pause();
+      await pause();
 
-      // await this.player.say(["Why must I speak."]);
+      await this.player.say(["Why must I speak."]);
 
       this.fightMusic.play();
 
-      // await this.sam.say([
-      //   "For fucks sake, they always play this music when they're hunting.",
-      // ]);
-      // await this.player.say(["Oh I bet you love it when they hunt then."]);
-      // await this.sam.say(["What do you mean bro?", "I fucking hate jungle."]);
+      await this.sam.say([
+        "For fucks sake, they always play this music when they're hunting.",
+      ]);
+      await this.player.say(["Oh I bet you love it when they hunt then."]);
+      await this.sam.say(["What do you mean bro?", "I fucking hate jungle."]);
 
-      // await pause(1000);
+      await pause(1000);
 
-      // await this.player.say(["What is this hell I'm in."]);
+      await this.player.say(["What is this hell I'm in."]);
 
-      // await pause();
+      await pause();
 
       await Promise.all(this.notes.map((note) => note.moveToX(-100)));
 
@@ -283,38 +283,45 @@ class SamScene extends BaseScene {
         note.setEvil(true);
       });
 
-      // TODO: finish fight sequence
-      // await pause(1000);
-      // this.fightMusic.play();
+      await pause(1000);
+      this.fightMusic.play();
 
-      // const noteInterval0 = 4;
-      // const noteInterval1 = 8;
-      // const noteInterval2 = 32;
-      // const noteInterval3 = 16;
-      // this.notes[0].startAttacking(noteInterval0);
-      // await wait(3 * noteInterval0);
+      const noteInterval0 = 4;
+      const noteInterval1 = 8;
+      const noteInterval2 = 32;
+      const noteInterval3 = 16;
+      this.notes[0].startAttacking(noteInterval0);
+      await wait(3 * noteInterval0 * 4);
 
-      // this.notes[1].startAttacking(noteInterval1);
+      this.notes[1].startAttacking(noteInterval1);
 
-      // await wait(2 * noteInterval1 * 4);
+      await wait(2 * noteInterval1 * 4);
 
-      // this.notes[2].startAttacking(noteInterval2);
+      this.notes[1].attackInterval = noteInterval1 * 2;
+      this.notes[2].startAttacking(noteInterval2);
 
-      // await wait(2 * noteInterval2 * 2);
+      await wait(2 * noteInterval2 * 2);
 
-      // this.notes[1].attackInterval = noteInterval1 * 2;
-      // this.notes[3].startAttacking(noteInterval3);
+      this.notes[3].startAttacking(noteInterval3);
 
-      // await wait(noteInterval3 * 4);
+      await wait(noteInterval3 * 8);
 
-      // this.notes[0].stopAttacking();
+      this.notes.forEach((note) => note.stopAttacking());
+
+      this.fightMusic.stop();
 
       await pause();
       this.sam.setHeadTexture("sam_smiling");
       this.sam.setLookAtPlayer(false);
       this.player.speed = 300;
       this.player.immobile = true;
-      //TODO: dialogue
+      this.player.flipX = false;
+
+      await this.sam.say([
+        "Fucking hell bro, you survived.",
+        "The first time they attacked me they fucking ate my soul.",
+        "Anyway, I'm glad they're finally-",
+      ]);
 
       this.clickSound.play();
       this.setFade(1);
@@ -371,18 +378,6 @@ class SamScene extends BaseScene {
       this.player.immobile = false;
 
       await this.initNextLevelTrigger();
-
-      /*
-
-
-        notes come one at a time, do some telegraphed move
-        each one adds on top of the last
-        make all movement tempo based so we can adjust
-
-        Sam getting hit?
-        - control sam as well
-        - sam has his soul destroyed so doesnt get hurt?
-      */
 
     };
 
