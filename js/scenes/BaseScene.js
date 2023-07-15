@@ -12,6 +12,11 @@ class BaseScene extends Phaser.Scene {
   preload() {
     this.load.setBaseURL("assets");
 
+    this.textures.remove("background");
+    this.textures.remove("oli");
+    this.textures.remove("nikhil");
+    this.textures.remove("aman");
+
     this.load.image("arrow", "img/arrow.png");
     this.load.image("body_0", "img/character/body/default.png");
     this.load.image("body_1", "img/character/body/1.png");
