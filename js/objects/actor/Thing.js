@@ -1,5 +1,5 @@
 class Thing extends Phaser.Physics.Arcade.Sprite {
-  constructor(scene, hp, x, y, img, isPlayer) {
+  constructor(scene, hp, x, y, img, isPlayer = false) {
     super(scene, x, y, img);
     this.scene = scene;
     this.hp = hp;

@@ -36,6 +36,7 @@ class BaseScene extends Phaser.Scene {
       this.load.audio("background_music", `audio/music/${this.background}.mp3`);
     }
 
+    this.load.audio("default_voice", "audio/speech/sans.wav");
     this.load.audio("player_speech", "audio/speech/player_speech.wav");
     this.load.audio("cursed_speech", "audio/speech/cursed.wav");
     this.load.audio("narrator", "audio/speech/narrator.wav");
@@ -45,6 +46,9 @@ class BaseScene extends Phaser.Scene {
     this.load.audio("ben", "audio/speech/light.wav");
     this.load.audio("ossian", "audio/speech/wngdng.wav");
     this.load.audio("sam", "audio/speech/sans.wav");
+    this.load.audio("samk", "audio/speech/asgore.wav");
+    this.load.audio("witch", "audio/speech/sans.wav");
+    this.load.audio("paul", "audio/speech/sans.wav");
 
     this.load.audio("big_damage_audio", "audio/damage.wav");
     this.load.audio("create", "audio/create.wav");
@@ -66,6 +70,8 @@ class BaseScene extends Phaser.Scene {
     this.load.audio("laugh", "audio/laugh.wav");
     this.load.audio("laugh2", "audio/laugh2.wav");
     this.load.audio("laugh3", "audio/laugh3.wav");
+
+    this.load.audio("tire_screech", "audio/tire_screech.wav");
 
     this.load.plugin(
       "rexswirlpipelineplugin",
@@ -107,6 +113,7 @@ class BaseScene extends Phaser.Scene {
     this.beamSound = this.sound.add("beam", {
       volume: 0.5,
     });
+    this.tireScreechSound = this.sound.add("tire_screech");
 
     this.platforms = this.add.group();
     this.actors = this.add.group();
@@ -122,7 +129,7 @@ class BaseScene extends Phaser.Scene {
 
     if (this.hasBackgroundMusic) {
       this.backgroundMusic = this.sound.add("background_music", {
-        volume: 0.3,
+        volume: 0.5,
         loop: true,
       });
 
@@ -271,12 +278,12 @@ class BaseScene extends Phaser.Scene {
     );
     await nextLevelTrigger.setTrigger(this.player);
 
+    this.player.setImmobile(true);
+    await this.fadeOut();
     this.startNextLevel();
   }
 
   async startNextLevel() {
-    this.player.setImmobile(true);
-    await this.fadeOut();
     const code = parseInt(this.SCENE_CODE) + 1;
     setLevelSave(code);
     setSectionSave(0);

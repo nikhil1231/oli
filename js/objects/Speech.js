@@ -6,6 +6,7 @@ class Speech {
   ROTATION_S = 0.015;
   CURSED_START_CHAR = "[";
   CURSED_END_CHAR = "]";
+  SPEECH_RATE = 0.8;
 
   visible = false;
   isTalking = true;
@@ -138,7 +139,7 @@ class Speech {
 
       const sound = this.isCursed ? this.cursedSpeechSound : this.speechSound;
 
-      if (Math.random() < 0.9) sound.play();
+      if (Math.random() < this.SPEECH_RATE) sound.play();
       this.text.setText(line.substring(0, i));
       this.text.setWordWrapWidth(this.x + this.WIDTH - this.text_x - 20);
       if ([",", ".", "!", "?"].includes(line[i])) {

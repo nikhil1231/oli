@@ -26,6 +26,7 @@ const config = {
     PIScene,
     AcidScene,
     SamScene,
+    ForestScene,
   ].slice(getLevelSave()),
   physics: {
     default: "arcade",
