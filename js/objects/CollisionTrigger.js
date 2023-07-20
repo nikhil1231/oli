@@ -5,6 +5,7 @@ class CollisionTrigger extends Phaser.Physics.Arcade.Sprite {
 
     scene.add.existing(this);
     scene.physics.world.enableBody(this);
+    this.setPushable(false);
 
     this.displayWidth = width;
     this.displayHeight = height;
