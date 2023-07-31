@@ -16,6 +16,7 @@ class BaseScene extends Phaser.Scene {
     this.textures.remove("oli");
     this.textures.remove("nikhil");
     this.textures.remove("aman");
+    this.cache.audio.remove("background_music");
 
     this.load.image("arrow", "img/arrow.png");
     this.load.image("body_0", "img/character/body/default.png");
@@ -49,6 +50,7 @@ class BaseScene extends Phaser.Scene {
     this.load.audio("samk", "audio/speech/asgore.wav");
     this.load.audio("witch", "audio/speech/sans.wav");
     this.load.audio("paul", "audio/speech/sans.wav");
+    this.load.audio("nikesh", "audio/speech/tor3.wav");
 
     this.load.audio("big_damage_audio", "audio/damage.wav");
     this.load.audio("create", "audio/create.wav");
@@ -184,17 +186,17 @@ class BaseScene extends Phaser.Scene {
     this.draw();
   }
 
-  async fadeOut() {
-    await this._fade(0, 1);
+  async fadeOut(speed = this.fadeSpeed) {
+    await this._fade(0, 1, speed);
   }
 
-  async fadeIn() {
-    await this._fade(1, 0);
+  async fadeIn(speed = this.fadeSpeed) {
+    await this._fade(1, 0, speed);
   }
 
-  async _fade(from, to) {
+  async _fade(from, to, speed) {
     this.alpha = from;
-    const d = (to - from) * this.fadeSpeed;
+    const d = (to - from) * speed;
     while (Math.abs(to - this.alpha) > 0.03) {
       this.alpha += d;
       this.draw();
@@ -233,6 +235,7 @@ class BaseScene extends Phaser.Scene {
   }
 
   async swirlTease(level, duration = 100) {
+    this.swooshSound.play();
     for (let i = 0; i < duration; i++) {
       this.setSwirl(level * Math.sin((Math.PI * i) / duration));
       await pause(10);

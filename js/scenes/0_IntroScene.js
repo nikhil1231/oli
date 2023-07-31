@@ -8,19 +8,12 @@ class IntroScene extends BaseScene {
   preload() {
     super.preload();
     this.load.image("oli", "img/character/face/oli1.png");
-
-    this.load.audio("player_speech", "audio/player_speech.wav");
   }
 
   create() {
     super.create();
-    this.player = new Player(
-      this,
-      VARS.playerSpawnX,
-      VARS.playerSpawnY,
-      "oli1",
-      false
-    );
+    this.player = new Player(this, 100, 300, 2, false);
+    this.actors.add(this.player);
 
     this.runScript();
   }
@@ -28,10 +21,10 @@ class IntroScene extends BaseScene {
   async runScript() {
     await super.runScript();
 
-    await pause(2000);
-
-    const speech = new Speech(this, "oli1", this.sound.add("player_speech"));
-    await speech.say(["What...", "Where am I?", "What's going on?!"]);
+    await pause();
+    await this.player.say(["What...", "Where am I...?"]);
+    await pause();
+    await this.player.say(["What's going on?!"]);
 
     await this.initNextLevelTrigger();
   }

@@ -6,7 +6,7 @@ class FootballScene extends BaseScene {
   SCORE_TO_WIN = 10;
 
   constructor() {
-    super(FootballScene.SCENE_CODE, "football");
+    super(FootballScene.SCENE_CODE, "football", true);
   }
 
   preload() {
@@ -20,13 +20,8 @@ class FootballScene extends BaseScene {
 
   create() {
     super.create();
-    this.player = new Player(
-      this,
-      VARS.playerSpawnX,
-      this.FLOOR_Y,
-      0,
-      false
-    );
+    this.player = new Player(this, VARS.playerSpawnX, this.FLOOR_Y, 0, false);
+    this.actors.add(this.player);
     this.player.grounded = true;
     this.player.speed = this.PLAYER_SPEED;
     this.player.body.immovable = true;
@@ -34,6 +29,7 @@ class FootballScene extends BaseScene {
     this.score = 0;
     this.gameDone = false;
     this.aman = new Enemy(this, 1, VARS.width - 100, this.FLOOR_Y, "aman");
+    this.actors.add(this.aman);
 
     this.runScript();
   }
@@ -82,6 +78,7 @@ class FootballScene extends BaseScene {
 
     const postGame = async () => {
       this.nikhil = new Enemy(this, 1, -100, this.FLOOR_Y, "nikhil");
+      this.actors.add(this.nikhil);
       await this.nikhil.moveTo(100, this.FLOOR_Y);
 
       const ans = await this.nikhil.ask(
@@ -98,9 +95,14 @@ class FootballScene extends BaseScene {
 
       await pause();
 
-      await this.narrator.say(['Little did they know it at the time...', '...but this was to be the start of a beautiful friendship.'])
+      await this.narrator.say([
+        "Little did they know it at the time...",
+        "...but this was to be the start of a beautiful friendship.",
+      ]);
 
       await pause();
+
+      this.backgroundMusic.pause();
 
       await this.swirlTease(70, 100);
 
@@ -126,11 +128,7 @@ class FootballScene extends BaseScene {
 
     switch (getSectionSave()) {
       case "0":
-        await introScript();
-      case "gamewon":
-        setSectionSave("gamewon");
         await postGame();
-        break;
       default:
         console.log("ERR: Save file corrupt");
     }

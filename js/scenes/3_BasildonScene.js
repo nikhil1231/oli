@@ -4,7 +4,7 @@ class BasildonScene extends BaseScene {
   FLOOR_Y = 500;
 
   constructor() {
-    super(BasildonScene.SCENE_CODE, "basildon_1");
+    super(BasildonScene.SCENE_CODE, "basildon_1", true);
   }
 
   preload() {
@@ -20,13 +20,8 @@ class BasildonScene extends BaseScene {
 
   create() {
     super.create();
-    this.player = new Player(
-      this,
-      VARS.playerSpawnX,
-      this.FLOOR_Y,
-      "oli_young_1",
-      false
-    );
+    this.player = new Player(this, VARS.playerSpawnX, this.FLOOR_Y, 1, false);
+    this.actors.add(this.player);
 
     this.runScript();
   }
@@ -75,6 +70,8 @@ class BasildonScene extends BaseScene {
     // // ======================== NIKHIL APPEARS ===============================
 
     this.nikhil = new Enemy(this, 1, VARS.width + 100, this.FLOOR_Y, "nikhil");
+    this.actors.add(this.nikhil);
+
     await this.nikhil.moveTo(VARS.width - 100, this.FLOOR_Y);
 
     await this.nikhil.say([
@@ -93,11 +90,7 @@ class BasildonScene extends BaseScene {
       "I should go and talk to him.",
     ]);
 
-    let bound = new Bound(
-      this,
-      VARS.width / 2,
-      VARS.height / 2
-    );
+    let bound = new Bound(this, VARS.width / 2, VARS.height / 2);
 
     collisionTrigger = new CollisionTrigger(
       this,
@@ -110,9 +103,7 @@ class BasildonScene extends BaseScene {
 
     await pause(2000);
 
-    await this.player.say([
-      "What the fuck, why can't I move closer to him?",
-    ]);
+    await this.player.say(["What the fuck, why can't I move closer to him?"]);
 
     await pause(3000);
 
@@ -122,26 +113,27 @@ class BasildonScene extends BaseScene {
 
     await pause(2000);
 
-    await this.player.say([
-      "Fucks sake",
-    ]);
+    await this.player.say(["Fucks sake."]);
 
-    await pause(5000);
+    await pause(3000);
 
     // // ======================== AMAN APPEARS ===============================
 
+    this.player.setImmobile(true);
     this.aman = new Enemy(this, 1, -100, this.FLOOR_Y, "aman");
-    await this.aman.moveTo(100, this.FLOOR_Y);
+    this.actors.add(this.aman);
 
-    await this.aman.say([
-      "Hey Oli come on, let's go play football outside!"
-    ])
+    await this.aman.moveTo(100, this.FLOOR_Y, 300);
 
-    await this.aman.moveTo(200, this.FLOOR_Y - 200);
+    await this.aman.say(["Hey Oli come on, let's go play football outside!"]);
 
-    await this.player.say([
-      "Well I guess I don't have a choice.",
-    ]);
+    await this.aman.moveTo(200, this.FLOOR_Y - 200, 300);
+
+    await pause();
+
+    await this.player.say(["Well I guess I don't have a choice."]);
+
+    this.player.setImmobile(false);
 
     collisionTrigger = new CollisionTrigger(
       this,
@@ -151,8 +143,11 @@ class BasildonScene extends BaseScene {
       50
     );
     await collisionTrigger.setTrigger(this.player);
+    this.player.setImmobile(true);
 
-    this.nikhil.setHeadTexture('nikhil_sad')
+    await pause(1000);
+
+    this.nikhil.setHeadTexture("nikhil_sad");
 
     await this.nikhil.say([
       "Why are those boys playing without me...? :(((",
@@ -161,6 +156,21 @@ class BasildonScene extends BaseScene {
 
     await pause(1000);
 
+    await this.player.say(["Nikhil why don't you just come play with us?"]);
+
+    await pause(1000);
+
+    await this.nikhil.say([":((("]);
+
+    await pause(1000);
+
+    await this.narrator.say([
+      "Despite your most valiant efforts, Nikhil does not join you.",
+    ]);
+
+    await this.player.say(["Alright, I guess I can't do anything here."]);
+
+    await this.fadeOut();
     await this.startNextLevel();
   }
 
