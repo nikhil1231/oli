@@ -287,6 +287,7 @@ class BaseScene extends Phaser.Scene {
   }
 
   async startNextLevel() {
+    if (this.backgroundMusic) this.backgroundMusic.stop();
     const code = parseInt(this.SCENE_CODE) + 1;
     setLevelSave(code);
     setSectionSave(0);

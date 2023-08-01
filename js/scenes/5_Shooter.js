@@ -51,11 +51,14 @@ class ShooterScene extends BaseScene {
 
       await pause();
 
-      await this.player.say(["Oh sick it's black ops."]);
+      await this.player.say([
+        "Bro what the fuck just happened??",
+        "Where the fuck is my body??",
+      ]);
 
       await pause();
 
-      await this.player.say(["Wait, where the fuck is my body??"]);
+      await this.player.say(["Wait, is this black ops??"]);
 
       await pause();
 
@@ -72,7 +75,8 @@ class ShooterScene extends BaseScene {
 
       await pause(4000);
 
-      await this.aman.say(["Hope you're ready to get fucked in the arse."]);
+      await this.aman.say(["Hope you're ready to get fucked Oli."]);
+      await this.nikhil.say(["Yeah we're gonna destroy you!"]);
 
       await this.player.say(["It's those 2 against me? That's not fair."]);
 
@@ -200,7 +204,7 @@ class ShooterScene extends BaseScene {
       ]);
 
       await this.player.say([
-        "Sorry mate, I wish I could control this.",
+        "Unfortunately I cannot control it.",
         "I'll see you guys when we're older, I guess.",
       ]);
 

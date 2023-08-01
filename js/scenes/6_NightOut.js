@@ -148,7 +148,7 @@ class NightOutScene extends BaseScene {
           await pause(1000);
           this.glugSound.play();
           await pause(4000);
-      this.nikhil.setHeadTexture("nikhil_drunk");
+      this.nikhil.setHeadTexture("nikhil_sick");
           await this.nikhil.say([
             "Therre,,. aer you hapypy noww?/?",
             "...hic...",
@@ -191,8 +191,6 @@ class NightOutScene extends BaseScene {
         "Mate I don't know what you're on about.",
         "I'm calling the uber.",
       ]);
-
-      this.player.setHeadTexture("oli");
 
       await pause();
 
