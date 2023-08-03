@@ -22,6 +22,7 @@ class PaulScene extends BaseScene {
     this.load.image("oli_scared", "img/character/face/oli_scared.png");
     this.load.image("oli_smiling", "img/character/face/oli_smiling.png");
     this.load.image("peach", "img/peach.png");
+    this.load.image("rat", "img/rat.png");
   }
 
   create() {
@@ -50,7 +51,7 @@ class PaulScene extends BaseScene {
 
       await pause(1500);
 
-      await this.player.say(["Thank fuck I got out of that."]);
+      await this.player.say(["Jesus Christ.", "Thank fuck I got out of that."]);
       await pause(1000);
 
       await this.player.say(["Wow, this place is actually lovely."]);
@@ -125,12 +126,13 @@ class PaulScene extends BaseScene {
 
       await this.paul.say([
         "Bro that's not even the worst thing.",
-        "They fucking made tobacco illegal.",
+        "They fucking made drum n bass illegal.",
+        "Like, how can they even do that?",
       ]);
 
       await this.player.say([
         "Fuck me.",
-        "Well I hope this isn't a window into the future or something.",
+        "Well I hope this isn't a prophecy or something.",
         "At least you've got a nice place here though.",
         "Being a peach farmer must be so theraputic.",
       ]);
@@ -196,7 +198,7 @@ class PaulScene extends BaseScene {
       );
       this.physics.add.collider(this.oobVoid, this.peaches, (player, peach) => {
         peach.destroy();
-        this.player.takeDamage(10);
+        this.player.takeDamage(12);
       });
       this.physics.add.collider(this.player, this.peaches, (player, peach) => {
         peach.destroy();
@@ -218,7 +220,7 @@ class PaulScene extends BaseScene {
         this.spawnPeach(getRandomRange(100, VARS.width - 100));
       }
 
-      await pause();
+      await pause(5000);
 
       this.slideSound.play();
       this.paul.y = 300;
@@ -234,7 +236,63 @@ class PaulScene extends BaseScene {
         "Anyway, cheers bro.",
       ]);
 
-      // TODO: segue
+      this.laugh3Sound.play();
+      for (let i = 0; i < 3; i++) {
+        const rat = new Thing(this, 1, i * 180 - 500, 450 - i * 10, "rat");
+        rat.setScale(0.5 + i * 0.1);
+        rat.moveToX(VARS.width + 100, 500);
+      }
+
+      await pause(4000);
+
+      await this.player.say(["What the fuck, were those all Salman?"]);
+
+      this.paul.setHeadTexture("paul_sad");
+      await this.paul.say([
+        "Fucks sake, man.",
+        "These fucking rats always eating all my peaches.",
+        "Alright bro Imma go grab my shotgun.",
+        "I'll see you round.",
+      ]);
+      await this.paul.moveToX(VARS.width + 50);
+
+      await this.player.say(["Alright well Salman's dead."]);
+
+      await pause(5000);
+
+      await this.player.say(["Why is nothing happening."]);
+
+      await pause();
+
+      await this.player.say(["Let me out."]);
+
+      await pause();
+
+      this.backgroundMusic.stop();
+
+      let lights = 1;
+      const minGap = 100;
+      const startGap = 3000;
+      let dGap = 500;
+      let ddGap = 30;
+      let gap = startGap;
+      while (gap > minGap) {
+        if (lights) {
+          lights = 0;
+        } else {
+          lights = 1;
+        }
+        this.setFade(lights);
+        this.clickSound.play();
+        await pause(gap);
+        gap -= dGap;
+        dGap -= ddGap;
+      }
+
+      this.clickSound.play();
+      this.setFade(1);
+
+      this.startNextLevel();
     };
 
     switch (getSectionSave()) {
