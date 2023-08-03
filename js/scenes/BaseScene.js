@@ -120,14 +120,16 @@ class BaseScene extends Phaser.Scene {
     this.platforms = this.add.group();
     this.actors = this.add.group();
 
-    this.backgroundImg = new Phaser.GameObjects.Image(
-      this,
-      VARS.width / 2,
-      VARS.height / 2,
-      "background"
-    );
-    this.backgroundImg.setDepth(-100);
-    this.add.existing(this.backgroundImg);
+    if (this.background) {
+      this.backgroundImg = new Phaser.GameObjects.Image(
+        this,
+        VARS.width / 2,
+        VARS.height / 2,
+        "background"
+      );
+      this.backgroundImg.setDepth(-100);
+      this.add.existing(this.backgroundImg);
+    }
 
     if (this.hasBackgroundMusic) {
       this.backgroundMusic = this.sound.add("background_music", {

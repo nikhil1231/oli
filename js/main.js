@@ -28,11 +28,13 @@ const config = {
     SamScene,
     ForestScene,
     PaulScene,
+    EndScene,
+    CreditsScene,
   ].slice(getLevelSave()),
   physics: {
     default: "arcade",
     arcade: {
-      debug: true,
+      debug: false,
     },
   },
 };
