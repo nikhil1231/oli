@@ -17,6 +17,7 @@ const config = {
   skipSpeech: false,
   backgroundColor: 0x000000,
   scene: [
+    MenuScene,
     IntroScene,
     BasildonScene,
     FootballScene,
