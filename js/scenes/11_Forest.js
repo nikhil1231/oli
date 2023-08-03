@@ -16,7 +16,6 @@ class ForestScene extends BaseScene {
     this.load.image("oli_smiling", "img/character/face/oli_smiling.png");
     this.load.image("witch", "img/witch.png");
     this.load.image("witch_hidden", "img/witch_hidden.png");
-
   }
 
   create() {
@@ -44,6 +43,11 @@ class ForestScene extends BaseScene {
   }
 
   async runScript() {
+    await this.fadeIn();
+
+    await pause(1000);
+    await this.player.say(["Oooo, a spooky forest.", "My favourite."]);
+
     let collisionTrigger = new CollisionTrigger(
       this,
       200,
@@ -57,11 +61,13 @@ class ForestScene extends BaseScene {
 
     await this.witch.moveToX(VARS.width - 200, 100);
 
+    this.laughSound.play();
+
     this.player.setHeadTexture("oli_scared");
 
     await pause(1000);
 
-    await this.player.say(["Oh god please.", "What even is that."]);
+    await this.player.say(["Oh god please.", "What even is that??"]);
 
     await pause(1000);
 
@@ -99,18 +105,21 @@ class ForestScene extends BaseScene {
 
     await this.player.say([
       "What the fuck, have I gone into the future or something?",
+      "How am I meant to escape now?",
     ]);
 
     await this.sam.say([
-      "Yesterday is history...",
-      "..tomorrow is a mystery..",
-      "..but today is a gift.",
-      "That's why they call it the present.",
-      "That's what I always say.",
-      "God, I love that saying.",
+      "Escape? What do you mean?",
+      "Why would anyone want to leave this place?",
     ]);
 
-    await this.player.say(["Also, who is that behind you?"]);
+    await this.player.say([
+      "I need to get home.",
+      "Or wake up.",
+      "Or sober up.",
+      "Whichever it is.",
+    ]);
+    await this.player.say(["Also, what is that behind you?"]);
     await this.sam.say([
       "Oh, I've been so rude.",
       "Oli this is my wife, the [REDACTED].",
@@ -118,6 +127,7 @@ class ForestScene extends BaseScene {
     await this.player.say(["The what?"]);
     await pause(1000);
     this.witch.setTexture("witch");
+    this.laughSound.play();
     await pause(1000);
     await this.sam.say(["The witch."]);
     await this.player.say(["Ohhhh, the witch!"]);
