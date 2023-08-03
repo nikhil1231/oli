@@ -16,7 +16,7 @@ class Note extends Thing {
     this.arrowImg = `arrow_${variant}`;
 
     scene.physics.add.overlap(this, scene.player, (_, player) => {
-      player.takeDamage(this.dmg);
+      if (this.attacking) player.takeDamage(this.dmg);
     });
   }
 
@@ -89,24 +89,25 @@ class Note extends Thing {
 
       await this.wait(this.attackInterval);
     }
-    this.exitScene();
+    await this.exitScene();
   }
 
   async attack1() {
-    this.moveTo(50, this.scene.FLOOR_Y - this.displayHeight / 2, 900);
+    const margin = 30
+    this.moveTo(-margin, this.scene.FLOOR_Y - this.displayHeight / 2, 900);
 
     await this.wait(5);
 
     while (this.attacking) {
       await this.waitWithWarning(this.attackInterval, 90);
 
-      this.moveToX(VARS.width - 50, 1000);
+      this.moveToX(VARS.width + margin, 1000);
 
       await this.waitWithWarning(this.attackInterval, 270);
 
-      this.moveToX(50, 1000);
+      this.moveToX(-margin, 1000);
     }
-    this.exitScene();
+    await this.exitScene();
   }
 
   async attack2() {
@@ -126,7 +127,7 @@ class Note extends Thing {
       this.moveCircular(-this.displayWidth / 2, this.y, 50, 150, 30);
       await this.waitWithWarning(this.attackInterval, 90);
     }
-    this.exitScene();
+    await this.exitScene();
   }
 
   async attack3() {
@@ -150,7 +151,7 @@ class Note extends Thing {
 
       this.moveTo(randomX, attackYHigh, speed);
     }
-    this.exitScene();
+    await this.exitScene();
   }
 
   async waitWithWarning(n_beats, direction) {

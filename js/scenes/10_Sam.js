@@ -304,7 +304,7 @@ class SamScene extends BaseScene {
 
       this.notes[3].startAttacking(noteInterval3);
 
-      await wait(noteInterval3 * 8);
+      await wait(noteInterval3 * 4);
 
       this.notes.forEach((note) => note.stopAttacking());
 
@@ -316,6 +316,8 @@ class SamScene extends BaseScene {
       this.player.speed = 300;
       this.player.immobile = true;
       this.player.flipX = false;
+      this.player.lockFlip = true;
+      this.player.healthBar.visible = false;
 
       await this.sam.say([
         "Fucking hell bro, you survived.",
@@ -378,7 +380,6 @@ class SamScene extends BaseScene {
       this.player.immobile = false;
 
       await this.initNextLevelTrigger();
-
     };
 
     switch (getSectionSave()) {
