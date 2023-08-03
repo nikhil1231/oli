@@ -1,5 +1,5 @@
 class FootballScene extends BaseScene {
-  static SCENE_CODE = "2";
+  static SCENE_CODE = "3";
 
   FLOOR_Y = 500;
   PLAYER_SPEED = 500;

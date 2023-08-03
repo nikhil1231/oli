@@ -1,5 +1,5 @@
 class ShooterScene extends BaseScene {
-  static SCENE_CODE = "3";
+  static SCENE_CODE = "4";
 
   FLOOR_Y = 560;
   PLAYER_SPEED = 500;

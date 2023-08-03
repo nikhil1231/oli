@@ -1,5 +1,5 @@
 class ForestScene extends BaseScene {
-  static SCENE_CODE = "9";
+  static SCENE_CODE = "10";
 
   FLOOR_Y = 650;
 

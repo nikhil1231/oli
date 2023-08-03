@@ -1,5 +1,5 @@
 class DrivingScene extends BaseScene {
-  static SCENE_CODE = "5";
+  static SCENE_CODE = "6";
 
   FLOOR_Y = 650;
   PLAYER_SPEED = 500;

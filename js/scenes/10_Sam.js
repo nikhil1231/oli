@@ -1,5 +1,5 @@
 class SamScene extends BaseScene {
-  static SCENE_CODE = "8";
+  static SCENE_CODE = "9";
 
   FLOOR_Y = 590;
   PLAYER_SPEED = 500;

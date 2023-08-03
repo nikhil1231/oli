@@ -1,5 +1,5 @@
 class BasildonScene extends BaseScene {
-  static SCENE_CODE = "1";
+  static SCENE_CODE = "2";
 
   FLOOR_Y = 500;
 

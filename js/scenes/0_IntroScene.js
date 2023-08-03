@@ -1,5 +1,5 @@
 class IntroScene extends BaseScene {
-  static SCENE_CODE = "0";
+  static SCENE_CODE = "1";
 
   constructor() {
     super(IntroScene.SCENE_CODE);

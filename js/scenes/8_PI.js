@@ -1,5 +1,5 @@
 class PIScene extends BaseScene {
-  static SCENE_CODE = "6";
+  static SCENE_CODE = "7";
 
   FLOOR_Y = 590;
   PLAYER_SPEED = 500;

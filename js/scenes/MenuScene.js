@@ -1,5 +1,5 @@
 class MenuScene extends BaseScene {
-  static SCENE_CODE = "-1";
+  static SCENE_CODE = "0";
 
   FLOOR_Y = 700;
 

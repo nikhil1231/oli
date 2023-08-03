@@ -1,5 +1,5 @@
 class AcidScene extends BaseScene {
-  static SCENE_CODE = "7";
+  static SCENE_CODE = "8";
 
   FLOOR_Y = 594;
 

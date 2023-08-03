@@ -1,5 +1,5 @@
 class CreditsScene extends BaseScene {
-  static SCENE_CODE = "12";
+  static SCENE_CODE = "13";
 
   FLOOR_Y = 700;
 

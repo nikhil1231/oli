@@ -1,5 +1,5 @@
 class PaulScene extends BaseScene {
-  static SCENE_CODE = "10";
+  static SCENE_CODE = "11";
 
   FLOOR_Y = 650;
 

@@ -1,5 +1,5 @@
 class NightOutScene extends BaseScene {
-  static SCENE_CODE = "4";
+  static SCENE_CODE = "5";
 
   FLOOR_Y = 650;
   PLAYER_SPEED = 500;
