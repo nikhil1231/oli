@@ -1,5 +1,4 @@
 class HealthBar {
-
   ENEMY_COLOUR = 0xff0000;
   PLAYER_COLOUR = 0x00ff00;
 
@@ -9,28 +8,28 @@ class HealthBar {
   MIN_HP = 100;
   MAX_HP = 1000;
 
-  constructor(scene, x, y, hp, isPlayer, visible=false, offset=70) {
-      this.bar = new Phaser.GameObjects.Graphics(scene);
+  constructor(scene, x, y, hp, isPlayer, visible = false, offset = 70) {
+    this.bar = new Phaser.GameObjects.Graphics(scene);
 
-      this.max = hp;
-      this.value = hp;
-      this.isPlayer = isPlayer;
-      this.visible = visible;
+    this.max = hp;
+    this.value = hp;
+    this.isPlayer = isPlayer;
+    this.visible = visible;
 
-      this.width = this._getWidth();
-      this.height = this._getHeight();
-      this.offset = offset;
+    this.width = this._getWidth();
+    this.height = this._getHeight();
+    this.offset = offset;
 
-      this.p = (this.width - 4) / hp;
-      this.dx = 0;
-      this.dy = 0;
+    this.p = (this.width - 4) / hp;
+    this.dx = 0;
+    this.dy = 0;
 
-      this.setPosition(x, y);
+    this.setPosition(x, y);
 
-      scene.add.existing(this.bar);
+    scene.add.existing(this.bar);
   }
 
-  async setValue(value, shake=true) {
+  async setValue(value, shake = true) {
     const dmg = this.value - value;
     this.value = Math.max(value, 0);
 
@@ -69,7 +68,7 @@ class HealthBar {
     var d = Math.floor(this.p * this.value);
 
     this.bar.fillRect(x + 2, y + 2, d, this.height - 4);
-    this.bar.setDepth(999)
+    this.bar.setDepth(900);
   }
 
   destroy() {
@@ -82,9 +81,9 @@ class HealthBar {
     let i = 0;
     while (r > 4) {
       this.dx = r * Math.sin(i);
-      this.dy = r * 0.1 * Math.cos(i*3);
+      this.dy = r * 0.1 * Math.cos(i * 3);
       i++;
-      r*= 0.97;
+      r *= 0.97;
       await pause(10);
     }
     this.dx = 0;
@@ -105,6 +104,10 @@ class HealthBar {
     } else if (this.max > this.MAX_HP) {
       return this.MAX_SCALE;
     }
-    return (this.max - this.MIN_HP) * (this.MAX_SCALE - 1) / (this.MAX_HP - this.MIN_HP) + 1;
+    return (
+      ((this.max - this.MIN_HP) * (this.MAX_SCALE - 1)) /
+        (this.MAX_HP - this.MIN_HP) +
+      1
+    );
   }
 }

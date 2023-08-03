@@ -84,7 +84,7 @@ class BaseScene extends Phaser.Scene {
 
   create() {
     this.fade = new Phaser.GameObjects.Graphics(this);
-    this.fade.setDepth(500);
+    this.fade.setDepth(1000);
     this.add.existing(this.fade);
 
     this.playerBullets = this.add.group();

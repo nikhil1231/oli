@@ -1,10 +1,10 @@
 class AcidScene extends BaseScene {
   static SCENE_CODE = "7";
 
-  FLOOR_Y = 590;
+  FLOOR_Y = 594;
 
   constructor() {
-    super(AcidScene.SCENE_CODE, "nikhil_bedroom");
+    super(AcidScene.SCENE_CODE, "nikhil_bedroom", true);
   }
 
   preload() {
@@ -24,7 +24,7 @@ class AcidScene extends BaseScene {
 
     this.load.audio("evil_laugh", "audio/evil_laugh.ogg");
     this.load.audio("gunshot", "audio/gunshot.wav");
-    this.load.audio("fight_music", "audio/music/spider.mp3");
+    this.load.audio("fight_music", "audio/music/hell.mp3");
   }
 
   create() {
@@ -35,6 +35,8 @@ class AcidScene extends BaseScene {
     this.player = new Player(this, 100, this.FLOOR_Y - 200, 2, false);
     this.actors.add(this.player);
     this.player.enableGravity();
+
+    this.backgroundMusic.stop();
 
     this.fightMusic = this.sound.add("fight_music", {
       volume: 0.3,
@@ -51,8 +53,8 @@ class AcidScene extends BaseScene {
     const introScript = async () => {
       this.isFirstTime = true;
 
-      this.ossian = new Enemy(this, 20, VARS.width - 100, 200, "ossian", 3);
-      this.nikhil = new Enemy(this, 20, VARS.width - 200, 250, "nikhil", 5);
+      this.ossian = new Enemy(this, 20, VARS.width + 100, 200, "ossian", 3);
+      this.nikhil = new Enemy(this, 20, VARS.width + 200, 250, "nikhil", 5);
 
       this.ossian.enableGravity();
       this.nikhil.enableGravity();
@@ -69,13 +71,27 @@ class AcidScene extends BaseScene {
         "That apple pie literally killed me.",
         "Absolutely worth it though.",
       ]);
+
+      await pause();
+
+      await this.player.say([
+        "Where am I now?",
+        "Oh yeah, it's Nikhil's uni flat.",
+      ]);
+
+      await pause();
+
+      await this.player.say(["Oh no.", "Oh fuck no please."]);
+
+      this.nikhil.moveToX(VARS.width - 200);
+      await this.ossian.moveToX(VARS.width - 100);
+
       await this.nikhil.say([
         "Ah, Oli, you finally made it.",
         "This is my friend Ossian.",
       ]);
       await this.ossian.say(["Hello Oli, nice to meet you."]);
       await this.player.say([
-        "Oh fuck no please.",
         "Not this acid trip again, please god no.",
       ]);
       await this.nikhil.say([
@@ -88,7 +104,7 @@ class AcidScene extends BaseScene {
       await this.nikhil.say(["What, are you high already haha?"]);
       await this.player.say([
         "No..",
-        "Ugh nvm there's no point tryign to explain it.",
+        "Ugh nevermind, there's no point trying to explain it.",
         "Let's just get on with it.",
         "Looks like I have to progress the storyline or whatever.",
       ]);
@@ -106,54 +122,35 @@ class AcidScene extends BaseScene {
       await this.player.say(["No sorry, ignore me, you'll be fine."]);
       await this.nikhil.say(["Alrighty, let's take some drugs!"]);
 
-      this.player.immobile = true;
+      this.player.setImmobile(true);
       await pause(1000);
-
       const acidSize = 50;
-      const acid1 = new CollisionTrigger(
-        this,
-        this.ossian.x,
-        300,
-        acidSize,
-        acidSize,
-        "acid_tab"
-      );
 
-      acid1.enableGravity();
-      acid1.setTrigger(this.ossian, () => this.healSound.play());
+      const spawnAcid = (actor) => {
+        const acid = new CollisionTrigger(
+          this,
+          actor.x,
+          300,
+          acidSize,
+          acidSize,
+          "acid_tab"
+        );
 
+        acid.enableGravity();
+        acid.setTrigger(actor, () => this.healSound.play());
+      };
+
+      spawnAcid(this.ossian);
       await pause(1000);
-
-      const acid2 = new CollisionTrigger(
-        this,
-        this.nikhil.x,
-        300,
-        acidSize,
-        acidSize,
-        "acid_tab"
-      );
-
-      acid2.enableGravity();
-      acid2.setTrigger(this.nikhil, () => this.healSound.play());
-
+      spawnAcid(this.nikhil);
       await pause(1000);
-
-      const acid3 = new CollisionTrigger(
-        this,
-        this.player.x,
-        300,
-        acidSize,
-        acidSize,
-        "acid_tab"
-      );
-
-      acid3.enableGravity();
-      acid3.setTrigger(this.player, () => this.healSound.play());
-
+      spawnAcid(this.player);
       await pause();
 
       this.clickSound.play();
       this.setFade(1);
+
+      this.backgroundMusic.pause();
 
       this.backgroundImg.setTexture("hell_background");
       this.ossian.setHeadTexture("ossian_evil");
@@ -223,10 +220,8 @@ class AcidScene extends BaseScene {
       ]);
       await this.ossian.say([
         "I did not allow this, Demon Nikhil.",
-        "No matter, we will kill him anyway,",
+        "No matter, we will kill him anyway.",
       ]);
-
-      this.fightMusic.play();
 
       this.player.setImmobile(false);
 
@@ -287,6 +282,7 @@ class AcidScene extends BaseScene {
 
     const startGame = async () => {
       spawnEnemies();
+      this.player.setImmobile(false);
       this.fightMusic.play();
 
       if (this.isFirstTime) {
@@ -343,6 +339,8 @@ class AcidScene extends BaseScene {
 
       this.clickSound.play();
       this.setFade(0);
+
+      await pause();
 
       if (this.isFirstTimePhase2) {
         // dialogue maybe
