@@ -13,7 +13,7 @@ class DrivingScene extends BaseScene {
   ENEMY_CAR_SPAWN_MARGIN = 50;
 
   constructor() {
-    super(DrivingScene.SCENE_CODE, "road");
+    super(DrivingScene.SCENE_CODE, "road", true);
   }
 
   preload() {
@@ -42,7 +42,7 @@ class DrivingScene extends BaseScene {
 
   create() {
     super.create();
-    this.player = new Player(this, 100, this.FLOOR_Y - 200, 2, false);
+    this.player = new Player(this, 100, this.FLOOR_Y - 200, 4, false);
     this.player.immobile = true;
     this.player.setHeadTexture("oli");
     this.actors.add(this.player);
@@ -66,6 +66,9 @@ class DrivingScene extends BaseScene {
     this.enemyCars = this.add.group();
     this.walls = this.add.group();
 
+    this.backgroundMusic.setSeek(30);
+    this.backgroundMusic.setVolume(0);
+
     this.runScript();
   }
 
@@ -83,7 +86,10 @@ class DrivingScene extends BaseScene {
 
       for (const actor of [this.aman, this.nikhil, this.dylan]) {
         await pause(500);
-        actor.moveTo(this.car.x, this.car.y, 300).then(() => (actor.x = -100));
+        actor.moveTo(this.car.x, this.car.y, 300).then(() => {
+          actor.x = -100;
+          this.blockSound.play();
+        });
       }
 
       this.player.immobile = false;
@@ -103,6 +109,8 @@ class DrivingScene extends BaseScene {
       this.player.x = -100;
       this.player.immobile = true;
 
+      this.backgroundMusic.setVolume(0.1);
+
       await new Promise(async (r) => {
         while (true) {
           this.carSpeed += 0.01;
@@ -117,13 +125,20 @@ class DrivingScene extends BaseScene {
 
       this.carSpeed = this.MAX_CAR_SPEED;
 
+      this.car.moveTo(this.CAR_X, this.car.y, 100);
+
       this.ben = new Enemy(this, 100, -100, 200, "ben", 5);
       this.actors.add(this.ben);
       this.ben.setHeadTexture("ben_black");
 
       await this.aman.say(["Driver, do you mind turning the music up a bit?"]);
-      await this.ben.say(["Sure.", "How's your night going so far?"]);
+      await this.ben.say(["Sure."]);
+      await pause(1000);
+      this.backgroundMusic.setVolume(0.3);
+      await pause(1000);
+      await this.ben.say(["How's your night going so far?"]);
       await this.aman.say(["Not too bad, thanks."]);
+      await pause(1000);
       await this.player.say(["...", "???", "!!!", "Ben?!?!"]);
       this.ben.setHeadTexture("ben");
       await this.ben.say(["Hellooooo!"]);
@@ -150,7 +165,7 @@ class DrivingScene extends BaseScene {
       this.ben.setHeadTexture("ben_drunk_2");
       await this.ben.say(["...I am spangled."]);
 
-      await this.pause();
+      await pause();
       this.player.setHeadTexture("oli");
       await this.player.say(["Okay."]);
       this.player.setHeadTexture("oli_sad");
@@ -168,7 +183,9 @@ class DrivingScene extends BaseScene {
       this.tireScreechSound.play();
       this.car.activateControls();
 
-      this.narrator.say([
+      await pause(1000)
+
+      await this.narrator.say([
         "Realising you have no choice, you take the wheel.",
         "You also somehow learn to drive the car using only the [W] and [S] keys.",
       ]);
@@ -199,12 +216,15 @@ class DrivingScene extends BaseScene {
 
         this.player.setCollideWorldBounds(false);
         this.player.x = -100;
+
+        this.backgroundMusic.setVolume(0.3);
       }
       this.carSpeed = this.MAX_CAR_SPEED;
-      await this.car.moveTo(this.CAR_X, this.car.y);
       this.car.activateControls();
 
-      await spawnCars(30);
+      await spawnCars(3);
+
+      await pause(5000);
 
       await spawnEndWall();
 

@@ -60,6 +60,7 @@ class PIScene extends BaseScene {
     this.actors.add(this.player);
     this.player.setHealth(5);
     this.player.immobile = true;
+    this.player.immortal = true;
     this.platforms.add(new Floor(this, this.FLOOR_Y));
     this.player.enableGravity();
 
@@ -184,7 +185,7 @@ class PIScene extends BaseScene {
 
     await this.player.say([
       "Ugghhhhh..",
-      "I don't, feel too good..",
+      "Now I feel even worse..",
       "Why is this happening..?",
     ]);
 
@@ -195,12 +196,20 @@ class PIScene extends BaseScene {
 
     await pause(1000);
 
-    await this.player.say(["Oh god no..", "Gluten!"]);
+    await this.player.say(["Oh god no..", "Gluten."]);
 
     await pause();
-    this.player.immortal = true;
     this.player.takeDamage(100);
 
+    await pause();
+
+    await this.player.say([
+      "So this is how I die.",
+      "Of all the things that could've killed me...",
+    ]);
+
+    await pause(1000);
+    await this.fadeOut();
     this.startNextLevel();
   }
 
