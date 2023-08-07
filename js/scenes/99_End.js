@@ -66,6 +66,9 @@ class EndScene extends BaseScene {
     this.player.setImmobile(true);
     this.playerWobble = true;
 
+    this.setFade(1);
+    await pause();
+
     this.spawnStars();
 
     await this.fadeIn(0.005);

@@ -222,7 +222,7 @@ class DrivingScene extends BaseScene {
       this.carSpeed = this.MAX_CAR_SPEED;
       this.car.activateControls();
 
-      await spawnCars(3);
+      await spawnCars(30);
 
       await pause(5000);
 
