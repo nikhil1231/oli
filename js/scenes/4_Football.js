@@ -128,7 +128,12 @@ class FootballScene extends BaseScene {
 
     switch (getSectionSave()) {
       case "0":
+        await introScript();
+        setSectionSave("gamewon");
+        break;
+      case "gamewon":
         await postGame();
+        break;
       default:
         console.log("ERR: Save file corrupt");
     }
