@@ -115,14 +115,6 @@ class HeadEnemy extends Enemy {
     await _this.shootDirect(20, 700);
   }
 
-  destroy() {
-    this.setCollideWorldBounds(false);
-    this.setVelocity(0);
-    this.x = -200;
-    // super.destroy();
-    this.destroyed = true;
-  }
-
   shoot(x, y, dmg = this.dmg) {
     if (!this.isAlive || this.destroyed) return;
     this.shootNoise.play();

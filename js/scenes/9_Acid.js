@@ -91,9 +91,7 @@ class AcidScene extends BaseScene {
         "This is my friend Ossian.",
       ]);
       await this.ossian.say(["Hello Oli, nice to meet you."]);
-      await this.player.say([
-        "Not this acid trip again, please god no.",
-      ]);
+      await this.player.say(["Not this acid trip again, please god no."]);
       await this.nikhil.say([
         "Huh? I thought you said you hadn't done acid before.",
       ]);
@@ -370,8 +368,12 @@ class AcidScene extends BaseScene {
 
       await pause(1000);
 
-      this.ossian.destroy();
-      this.nikhil.destroy();
+      this.ossian.setCollideWorldBounds(false);
+      this.nikhil.setCollideWorldBounds(false);
+
+      this.ossian.x = -200;
+      this.nikhil.x = -200;
+
       this.deathNoise.play();
 
       await pause();
