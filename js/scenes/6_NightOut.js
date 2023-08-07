@@ -31,6 +31,8 @@ class NightOutScene extends BaseScene {
     this.player.setHeadTexture("oli_sad");
     this.actors.add(this.player);
 
+    this.fade.setDepth(950);
+
     this.glugSound = this.sound.add("glug");
 
     this.runScript();
@@ -71,12 +73,21 @@ class NightOutScene extends BaseScene {
 
       await pause();
 
-      await this.player.say(["Ugh..", "I feel terrible.."])
-      await this.narrator.say(['You feel your brain getting heavy, your thoughts getting slow.'])
-      await this.player.say(["Yeah okay, no need to explain it, I can feel it."])
-      await this.narrator.say(['It appears the constant warping is taking its toll.'])
-      await this.player.say(["But I can't even control it?!", "Tell what the fuck is happening right now?!"])
-      await this.narrator.say(['...'])
+      await this.player.say(["Ugh..", "I feel terrible.."]);
+      await this.narrator.say([
+        "You feel your brain getting heavy, your thoughts getting slow.",
+      ]);
+      await this.player.say([
+        "Yeah okay, no need to explain it, I can feel it.",
+      ]);
+      await this.narrator.say([
+        "It appears the constant warping is taking its toll.",
+      ]);
+      await this.player.say([
+        "But I can't even control it?!",
+        "Tell what the fuck is happening right now?!",
+      ]);
+      await this.narrator.say(["..."]);
       await this.player.say(["Fucks sake."]);
 
       await pause();
@@ -132,7 +143,9 @@ class NightOutScene extends BaseScene {
         }
         await this.nikhil.say([nikhilResponse]);
       } else {
-        await this.nikhil.say(["Nooooo, Oli please I literally just made this drink, it's basically 50/50."]);
+        await this.nikhil.say([
+          "Nooooo, Oli please I literally just made this drink, it's basically 50/50.",
+        ]);
         const res = await this.nikhil.ask(
           "Please, have mercyyyyy...",
           ["Alright fine..", "Down it you bitch."],
@@ -148,7 +161,7 @@ class NightOutScene extends BaseScene {
           await pause(1000);
           this.glugSound.play();
           await pause(4000);
-      this.nikhil.setHeadTexture("nikhil_sick");
+          this.nikhil.setHeadTexture("nikhil_sick");
           await this.nikhil.say([
             "Therre,,. aer you hapypy noww?/?",
             "...hic...",
@@ -156,11 +169,15 @@ class NightOutScene extends BaseScene {
         }
       }
 
-      await this.aman.say(["Alright c'mon, we should look to leave soon or we'll miss last entry."])
-      await this.player.say(["Relax, we're not going to miss last entry, they always let you in at..."])
+      await this.aman.say([
+        "Alright c'mon, we should look to leave soon or we'll miss last entry.",
+      ]);
+      await this.player.say([
+        "Relax, we're not going to miss last entry, they always let you in at...",
+      ]);
 
-      await pause()
-      await this.player.say(["Wait, where are we going again?"])
+      await pause();
+      await this.player.say(["Wait, where are we going again?"]);
 
       await this.aman.say([
         "Mate we already decided this yesterday, we're going to [REDACTED].",
@@ -245,10 +262,10 @@ class NightOutScene extends BaseScene {
 
       await this.aman.say(["Alright Uber's here, let's go."]);
 
-      this.aman.moveToX(VARS.width + 100)
-      await this.nikhil.moveToX(VARS.width + 100)
+      this.aman.moveToX(VARS.width + 100);
+      await this.nikhil.moveToX(VARS.width + 100);
 
-      this.player.setImmobile(false)
+      this.player.setImmobile(false);
       await this.initNextLevelTrigger();
     };
 
