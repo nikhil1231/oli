@@ -34,7 +34,9 @@ class CreditsScene extends BaseScene {
     });
     text.setOrigin(0.5);
 
-    await this.fadeIn(0.005);
+    await this.fadeIn(0.004);
+
+    await pause();
 
     const button = this.add.text(
       VARS.width / 2,
